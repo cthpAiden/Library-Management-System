@@ -1,0 +1,127 @@
+package schema;
+
+import java.util.Scanner;
+
+public class book {
+    
+    //property
+    private String bookID;         // id sách
+    private String nameBook;        // tên sách
+    private String title;          // /thể loại
+    private String author;         // tác giả
+    private String publicationYear;// năm xuất bản
+    private int quantity;          // số lượng
+
+    // constructor
+
+    public book() {
+    }
+    
+    public book(String bookID, String nameBook, String title, 
+            String author, String publicationYear, int quantity) {
+        
+        this.bookID = bookID;
+        this.nameBook = nameBook;
+        this.title = title;
+        this.author = author;
+        this.publicationYear = publicationYear;
+        this.quantity = quantity;
+    }
+    
+    //getter
+    public String getBookID() {
+        return bookID;
+    }
+
+    public String getNameBook() {    
+        return nameBook;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getPublicationYear() {
+        return publicationYear;
+    }
+
+    public int getQuantity() {    
+        return quantity;
+    }
+
+    // setter
+    public void setBookID(String bookID) {
+        this.bookID = bookID;
+    }
+
+    public void setNameBook(String nameBook) {
+        this.nameBook = nameBook;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setPublicationYear(String publicationYear) {
+        this.publicationYear = publicationYear;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    // input infor
+    public void inputInfor(){
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.print("Input Book ID: ");
+        bookID = sc.nextLine();
+
+        System.out.print("Input book name: ");
+        nameBook  = sc.nextLine();
+
+        System.out.print("Input title: ");
+        title = sc.nextLine();
+
+        System.out.print("Input author: ");
+        author = sc.nextLine();
+
+        System.out.print("Input publication year: ");
+        publicationYear = sc.nextLine();
+
+        System.out.print("Input quantity: ");
+        quantity = sc.nextInt();
+        sc.nextLine(); // Sửa lỗi trôi dòng sau khi nhập số int
+    }
+    
+    // Thông tin riêng của từng loại sách (lớp con sẽ override để thể hiện đa hình)
+    public String getThongTinChiTiet() {
+        return "Book";
+    }
+
+    public static void showHeader() {
+        System.out.println("-------------------------------------------------------------------------------------------------");
+        System.out.printf("|%-10s|%-20s|%-20s|%-20s|%-10s|%-6s|%-25s|%n",
+                "BookID","Book Name", "Title", "Author", "Year", "Quantity", "Details");
+    }
+
+    public void showInfor(){
+        System.out.printf("|%-10s|%-20s|%-20s|%-20s|%-10s|%-6d|%-25s|%n",
+                this.bookID,this.nameBook, this.title, this.author, this.publicationYear, this.quantity,
+                this.getThongTinChiTiet());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[%s] %s - %s (%s) | %s",
+                bookID, nameBook, author, publicationYear, getThongTinChiTiet());
+    }
+}

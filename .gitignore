@@ -1,0 +1,12 @@
+# Build output
+build/
+dist/
+
+# NetBeans local/private settings
+nbproject/private/
+
+# Non-code / documentation (excluded from this repo)
+GUIDELINES_FOR_CLAUDE/
+*.docx
+*.doc
+*.pdf
