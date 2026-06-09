@@ -1,5 +1,6 @@
 # Build output
 build/
+build_tmp/
 dist/
 
 # NetBeans local/private settings
