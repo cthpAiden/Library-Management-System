@@ -32,7 +32,8 @@ public class LAB01 {
     private void seedData() {
         bookList.add(new Novel("B01", "Truyen Kieu", "Nguyen Du", "1820", 5, "Romance"));
         bookList.add(new Textbook("B02", "Mathematics 9", "Phan Duc Chinh", "2005", 3, "Mathematics"));
-        bookList.add(new Comic("B03", "Detective Conan", "Gosho Aoyama", "1994", 10, 42));
+        bookList.add(new Comic("B03", "Tham Tu Conan", "Gosho Aoyama", "1994", 10, 42));
+        bookList.add(new Others("B04", "Tu Dien Tieng Viet", "Hoang Phe", "2018", 4, "Dictionary"));
 
         memberList.add(new Member("M01", "Nguyen Van A", "vana@gmail.com", "0901111111"));
         memberList.add(new Member("M02", "Tran Thi B", "thib@gmail.com", "0902222222"));
