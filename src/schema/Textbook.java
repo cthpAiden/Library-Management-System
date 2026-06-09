@@ -13,9 +13,9 @@ public class Textbook extends book {
         super();
     }
 
-    public Textbook(String bookID, String nameBook, String title,
+    public Textbook(String bookID, String nameBook,
             String author, String publicationYear, int quantity, String subject) {
-        super(bookID, nameBook, title, author, publicationYear, quantity);
+        super(bookID, nameBook, author, publicationYear, quantity);
         this.subject = subject;
     }
 

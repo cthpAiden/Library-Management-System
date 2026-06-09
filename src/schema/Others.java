@@ -13,9 +13,9 @@ public class Others extends book {
         super();
     }
 
-    public Others(String bookID, String nameBook, String title,
+    public Others(String bookID, String nameBook,
             String author, String publicationYear, int quantity, String note) {
-        super(bookID, nameBook, title, author, publicationYear, quantity);
+        super(bookID, nameBook, author, publicationYear, quantity);
         this.note = note;
     }
 

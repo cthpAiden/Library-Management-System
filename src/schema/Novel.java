@@ -13,9 +13,9 @@ public class Novel extends book {
         super();
     }
 
-    public Novel(String bookID, String nameBook, String title,
+    public Novel(String bookID, String nameBook,
             String author, String publicationYear, int quantity, String genre) {
-        super(bookID, nameBook, title, author, publicationYear, quantity);
+        super(bookID, nameBook, author, publicationYear, quantity);
         this.genre = genre;
     }
 

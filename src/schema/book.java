@@ -7,7 +7,6 @@ public class book {
     //property
     private String bookID;         // id sách
     private String nameBook;        // tên sách
-    private String title;          // /thể loại
     private String author;         // tác giả
     private String publicationYear;// năm xuất bản
     private int quantity;          // số lượng
@@ -17,12 +16,11 @@ public class book {
     public book() {
     }
     
-    public book(String bookID, String nameBook, String title, 
+    public book(String bookID, String nameBook,
             String author, String publicationYear, int quantity) {
-        
+
         this.bookID = bookID;
         this.nameBook = nameBook;
-        this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
         this.quantity = quantity;
@@ -35,10 +33,6 @@ public class book {
 
     public String getNameBook() {    
         return nameBook;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public String getAuthor() {
@@ -62,10 +56,6 @@ public class book {
         this.nameBook = nameBook;
     }
     
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -88,9 +78,6 @@ public class book {
         System.out.print("Input book name: ");
         nameBook  = sc.nextLine();
 
-        System.out.print("Input title: ");
-        title = sc.nextLine();
-
         System.out.print("Input author: ");
         author = sc.nextLine();
 
@@ -108,14 +95,14 @@ public class book {
     }
 
     public static void showHeader() {
-        System.out.println("-------------------------------------------------------------------------------------------------");
-        System.out.printf("|%-10s|%-20s|%-20s|%-20s|%-10s|%-6s|%-25s|%n",
-                "BookID","Book Name", "Title", "Author", "Year", "Quantity", "Details");
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
+        System.out.printf("|%-10s|%-20s|%-20s|%-10s|%-8s|%-35s|%n",
+                "BookID","Book Name", "Author", "Year", "Quantity", "Details");
     }
 
     public void showInfor(){
-        System.out.printf("|%-10s|%-20s|%-20s|%-20s|%-10s|%-6d|%-25s|%n",
-                this.bookID,this.nameBook, this.title, this.author, this.publicationYear, this.quantity,
+        System.out.printf("|%-10s|%-20s|%-20s|%-10s|%-8d|%-35s|%n",
+                this.bookID,this.nameBook, this.author, this.publicationYear, this.quantity,
                 this.getThongTinChiTiet());
     }
 

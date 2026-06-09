@@ -13,9 +13,9 @@ public class Comic extends book {
         super();
     }
 
-    public Comic(String bookID, String nameBook, String title,
+    public Comic(String bookID, String nameBook,
             String author, String publicationYear, int quantity, String illustrator) {
-        super(bookID, nameBook, title, author, publicationYear, quantity);
+        super(bookID, nameBook, author, publicationYear, quantity);
         this.illustrator = illustrator;
     }
 
