@@ -10,3 +10,9 @@ GUIDELINES_FOR_CLAUDE/
 *.docx
 *.doc
 *.pdf
+
+# Images / misc non-project files
+*.jpg
+*.jpeg
+*.png
+*.gif
