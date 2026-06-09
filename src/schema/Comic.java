@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Comic extends book {
 
     // Thuộc tính riêng của Comic
-    private String illustrator; // họa sĩ minh họa
+    private int issueNumber; // số tập / số phát hành
 
     // constructor
     public Comic() {
@@ -14,18 +14,18 @@ public class Comic extends book {
     }
 
     public Comic(String bookID, String nameBook,
-            String author, String publicationYear, int quantity, String illustrator) {
+            String author, String publicationYear, int quantity, int issueNumber) {
         super(bookID, nameBook, author, publicationYear, quantity);
-        this.illustrator = illustrator;
+        this.issueNumber = issueNumber;
     }
 
     // getter / setter
-    public String getIllustrator() {
-        return illustrator;
+    public int getIssueNumber() {
+        return issueNumber;
     }
 
-    public void setIllustrator(String illustrator) {
-        this.illustrator = illustrator;
+    public void setIssueNumber(int issueNumber) {
+        this.issueNumber = issueNumber;
     }
 
     // override input: nhập thông tin chung rồi nhập thuộc tính riêng
@@ -33,13 +33,13 @@ public class Comic extends book {
     public void inputInfor() {
         super.inputInfor();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter illustrator: ");
-        this.illustrator = sc.nextLine();
+        System.out.print("Enter issue number: ");
+        this.issueNumber = Integer.parseInt(sc.nextLine());
     }
 
     // override để hiển thị thông tin riêng (đa hình)
     @Override
     public String getThongTinChiTiet() {
-        return "Comic | Illustrator: " + illustrator;
+        return "Comic | Issue No.: " + issueNumber;
     }
 }

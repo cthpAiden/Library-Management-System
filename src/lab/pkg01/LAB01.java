@@ -30,9 +30,9 @@ public class LAB01 {
 
     // Dữ liệu mẫu: 3 sách (mỗi lớp con) và 3 thành viên
     private void seedData() {
-        bookList.add(new Novel("B01", "Harry Potter", "J.K. Rowling", "1997", 5, "Fantasy"));
-        bookList.add(new Textbook("B02", "Calculus", "James Stewart", "2015", 3, "Math"));
-        bookList.add(new Comic("B03", "One Piece", "Eiichiro Oda", "1999", 10, "Eiichiro Oda"));
+        bookList.add(new Novel("B01", "Truyen Kieu", "Nguyen Du", "1820", 5, "Romance"));
+        bookList.add(new Textbook("B02", "Mathematics 9", "Phan Duc Chinh", "2005", 3, "Mathematics"));
+        bookList.add(new Comic("B03", "Detective Conan", "Gosho Aoyama", "1994", 10, 42));
 
         memberList.add(new Member("M01", "Nguyen Van A", "vana@gmail.com", "0901111111"));
         memberList.add(new Member("M02", "Tran Thi B", "thib@gmail.com", "0902222222"));
