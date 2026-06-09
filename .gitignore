@@ -8,6 +8,8 @@ nbproject/private/
 
 # Non-code / documentation (excluded from this repo)
 GUIDELINES_FOR_CLAUDE/
+\[FOR SELF-GUIDE\]/
+\[FOR SUBMISSION\]/
 *.docx
 *.doc
 *.pdf
