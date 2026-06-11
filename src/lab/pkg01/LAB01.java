@@ -508,13 +508,14 @@ public class LAB01 {
         record.setReturned(true);// đã trả
         bk.setQuantity(bk.getQuantity() + 1);// trả thì số lượng trong kho tăng lên 1
  
+        long soNgayQuaHan = record.tinhNgayQuaHan(returnDate);
         long tienPhat = record.tinhTienPhat(returnDate);
         if (tienPhat == 0) {
             System.out.printf("Book: '%s' returned by '%s'. Not overdue.%n",
                     bk.getNameBook(), mb.getNameMember());
         } else {
-            System.out.printf("Book: '%s' returned by '%s'. Overdue | fine: %,d VND.%n",
-                    bk.getNameBook(), mb.getNameMember(), tienPhat);
+            System.out.printf("Book: '%s' returned by '%s'. Overdue: %d day(s) | fine: %,d VND.%n",
+                    bk.getNameBook(), mb.getNameMember(), soNgayQuaHan, tienPhat);
         }
     }
  
