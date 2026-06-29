@@ -777,13 +777,17 @@ public class LAB01 {
                     + bk.getQuantity();
 
             if (bk instanceof Novel) {
-                pw.println("NOVEL|" + common + "|" + ((Novel) bk).getGenre());
+                Novel n = (Novel) bk;
+                pw.println("NOVEL|" + common + "|" + n.getGenre());
             } else if (bk instanceof Comic) {
-                pw.println("COMIC|" + common + "|" + ((Comic) bk).getIssueNumber());
+                Comic c = (Comic) bk;
+                pw.println("COMIC|" + common + "|" + c.getIssueNumber());
             } else if (bk instanceof Textbook) {
-                pw.println("TEXTBOOK|" + common + "|" + ((Textbook) bk).getSubject());
+                Textbook t = (Textbook) bk;
+                pw.println("TEXTBOOK|" + common + "|" + t.getSubject());
             } else if (bk instanceof Others) {
-                pw.println("OTHERS|" + common + "|" + ((Others) bk).getNote());
+                Others o = (Others) bk;
+                pw.println("OTHERS|" + common + "|" + o.getNote());
             }
         }
         pw.close();
@@ -802,7 +806,14 @@ public class LAB01 {
         PrintWriter pw = new PrintWriter(new FileWriter(BORROWINGS_FILE));
         for (Borrowing br : borrowList) {
             String borrow = br.getBorrowDate().format(FMT);
-            String ret = (br.getReturnDate() == null) ? "null" : br.getReturnDate().format(FMT);
+
+            String ret;
+            if (br.getReturnDate() == null) {
+                ret = "null";
+            } else {
+                ret = br.getReturnDate().format(FMT);
+            }
+
             pw.println(br.getMemberID() + "|" + br.getBookID() + "|"
                     + borrow + "|" + ret + "|" + br.isReturned());
         }
@@ -875,8 +886,16 @@ public class LAB01 {
         while ((line = br.readLine()) != null) {
             if (line.trim().isEmpty()) continue;
             String[] p = line.split("\\|");
+
             LocalDate borrowDate = LocalDate.parse(p[2], FMT);
-            LocalDate returnDate = p[3].equals("null") ? null : LocalDate.parse(p[3], FMT);
+
+            LocalDate returnDate;
+            if (p[3].equals("null")) {
+                returnDate = null;
+            } else {
+                returnDate = LocalDate.parse(p[3], FMT);
+            }
+
             boolean returned = Boolean.parseBoolean(p[4]);
             borrowList.add(new Borrowing(p[0], p[1], borrowDate, returnDate, returned));
         }
