@@ -1,0 +1,21 @@
+# Build output
+build/
+build_tmp/
+dist/
+
+# NetBeans local/private settings
+nbproject/private/
+
+# Non-code / documentation (excluded from this repo)
+GUIDELINES_FOR_CLAUDE/
+\[FOR SELF-GUIDE\]/
+\[FOR SUBMISSION\]/
+*.docx
+*.doc
+*.pdf
+
+# Images / misc non-project files
+*.jpg
+*.jpeg
+*.png
+*.gif

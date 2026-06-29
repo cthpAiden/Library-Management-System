@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="DejaVu Sans, Arial, sans-serif">
+<rect x="0" y="0" width="1280" height="720" fill="#ffffff"/>
+<rect x="6" y="6" width="1268" height="708" rx="14" fill="none" stroke="#e6e9ef" stroke-width="2"/>
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5a6573"/></marker><marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d96666"/></marker><marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3f9d6b"/></marker></defs>
+<rect x="350.0" y="9.0" width="580" height="34" rx="17" fill="#dbe7fb" stroke="#5b8fc7" stroke-width="2"/>
+<text x="640" y="26.0" font-size="16" fill="#1f3b6e" font-weight="bold" text-anchor="middle" dominant-baseline="middle"><tspan x="640" dy="0.0">FLOWCHART — addBook() : Book &amp; its child classes</tspan></text>
+<rect x="540.0" y="53.0" width="200" height="38" rx="19.0" fill="#bfe6cd" stroke="#3f9d6b" stroke-width="2"/>
+<text x="640" y="72.0" font-size="14" fill="#13502f" font-weight="bold" text-anchor="middle" dominant-baseline="middle"><tspan x="640" dy="0.0">START · addBook()</tspan></text>
+<line x1="640" y1="91" x2="640" y2="105" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<polygon points="446.0,105.0 850.0,105.0 834.0,155.0 430.0,155.0" fill="#fde9cf" stroke="#e0931f" stroke-width="2"/>
+<text x="640" y="121.8" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="640" dy="0.0">Print BOOK TYPE menu &amp; choose type:</tspan><tspan x="640" dy="16.5">1 Novel    2 Textbook    3 Comic    4 Others</tspan></text>
+<line x1="640" y1="155" x2="640" y2="168" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<polygon points="640,168 720,206 640,244 560,206" fill="#f6cccc" stroke="#d96666" stroke-width="2"/>
+<text x="640" y="197.5" font-size="13" fill="#7a1f1f" font-weight="bold" text-anchor="middle" dominant-baseline="middle"><tspan x="640" dy="0.0">Which</tspan><tspan x="640" dy="17.0">type?</tspan></text>
+<line x1="640" y1="244" x2="640" y2="256" stroke="#5a6573" stroke-width="2"/>
+<line x1="290" y1="256" x2="1040" y2="256" stroke="#5a6573" stroke-width="2"/>
+<line x1="290" y1="256" x2="290" y2="276" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<text x="302" y="249" font-size="13" fill="#d96666" font-weight="bold" text-anchor="middle">1</text>
+<line x1="540" y1="256" x2="540" y2="276" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<text x="552" y="249" font-size="13" fill="#d96666" font-weight="bold" text-anchor="middle">2</text>
+<line x1="790" y1="256" x2="790" y2="276" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<text x="802" y="249" font-size="13" fill="#d96666" font-weight="bold" text-anchor="middle">3</text>
+<line x1="1040" y1="256" x2="1040" y2="276" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1052" y="249" font-size="13" fill="#d96666" font-weight="bold" text-anchor="middle">4</text>
+<rect x="196.0" y="278.0" width="188" height="36" rx="9" fill="#cfe2f3" stroke="#5b8fc7" stroke-width="2"/>
+<text x="290" y="296.0" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="290" dy="0.0">bk = new Novel();</tspan></text>
+<line x1="290" y1="314" x2="290" y2="334" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="196.0" y="334.0" width="188" height="52" rx="9" fill="#fde9cf" stroke="#e0931f" stroke-width="2"/>
+<text x="290" y="351.8" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="290" dy="0.0">bk.inputInfor()</tspan><tspan x="290" dy="16.5" font-style="italic" font-size="11.0">common fields + genre</tspan></text>
+<rect x="446.0" y="278.0" width="188" height="36" rx="9" fill="#cfe2f3" stroke="#5b8fc7" stroke-width="2"/>
+<text x="540" y="296.0" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="540" dy="0.0">bk = new Textbook();</tspan></text>
+<line x1="540" y1="314" x2="540" y2="334" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="446.0" y="334.0" width="188" height="52" rx="9" fill="#fde9cf" stroke="#e0931f" stroke-width="2"/>
+<text x="540" y="351.8" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="540" dy="0.0">bk.inputInfor()</tspan><tspan x="540" dy="16.5" font-style="italic" font-size="11.0">common fields + subject</tspan></text>
+<rect x="696.0" y="278.0" width="188" height="36" rx="9" fill="#cfe2f3" stroke="#5b8fc7" stroke-width="2"/>
+<text x="790" y="296.0" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="790" dy="0.0">bk = new Comic();</tspan></text>
+<line x1="790" y1="314" x2="790" y2="334" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="696.0" y="334.0" width="188" height="52" rx="9" fill="#fde9cf" stroke="#e0931f" stroke-width="2"/>
+<text x="790" y="351.8" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="790" dy="0.0">bk.inputInfor()</tspan><tspan x="790" dy="16.5" font-style="italic" font-size="11.0">common fields + issueNumber</tspan></text>
+<rect x="946.0" y="278.0" width="188" height="36" rx="9" fill="#cfe2f3" stroke="#5b8fc7" stroke-width="2"/>
+<text x="1040" y="296.0" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="1040" dy="0.0">bk = new Others();</tspan></text>
+<line x1="1040" y1="314" x2="1040" y2="334" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="946.0" y="334.0" width="188" height="52" rx="9" fill="#fde9cf" stroke="#e0931f" stroke-width="2"/>
+<text x="1040" y="351.8" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="1040" dy="0.0">bk.inputInfor()</tspan><tspan x="1040" dy="16.5" font-style="italic" font-size="11.0">common fields + note</tspan></text>
+<line x1="290" y1="386" x2="290" y2="402" stroke="#5a6573" stroke-width="2"/>
+<line x1="540" y1="386" x2="540" y2="402" stroke="#5a6573" stroke-width="2"/>
+<line x1="790" y1="386" x2="790" y2="402" stroke="#5a6573" stroke-width="2"/>
+<line x1="1040" y1="386" x2="1040" y2="402" stroke="#5a6573" stroke-width="2"/>
+<line x1="290" y1="402" x2="1040" y2="402" stroke="#5a6573" stroke-width="2"/>
+<line x1="640" y1="402" x2="640" y2="412" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<polygon points="640,412 758,456 640,500 522,456" fill="#f6cccc" stroke="#d96666" stroke-width="2"/>
+<text x="640" y="447.8" font-size="12.5" fill="#7a1f1f" font-weight="bold" text-anchor="middle" dominant-baseline="middle"><tspan x="640" dy="0.0">bk.getBookID() already</tspan><tspan x="640" dy="16.5">in bookList?</tspan></text>
+<line x1="758" y1="456" x2="892" y2="456" stroke="#d96666" stroke-width="2" marker-end="url(#arr)"/>
+<text x="770" y="448" font-size="12" fill="#d96666" font-weight="bold" text-anchor="middle">Yes</text>
+<rect x="895.0" y="434.0" width="210" height="44" rx="9" fill="#f6cccc" stroke="#d96666" stroke-width="2"/>
+<text x="1000" y="448.0" font-size="12" fill="#7a1f1f" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="1000" dy="0.0">“Book ID already existed!”</tspan><tspan x="1000" dy="16.0" font-style="italic" font-size="10.5">return</tspan></text>
+<text x="654" y="514" font-size="12" fill="#5a6573" font-weight="bold" text-anchor="middle">No</text>
+<line x1="640" y1="500" x2="640" y2="516" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="405.0" y="519.0" width="470" height="42" rx="9" fill="#cfe2f3" stroke="#5b8fc7" stroke-width="2"/>
+<text x="640" y="540.0" font-size="12.5" fill="#23303d" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="640" dy="0.0">bookList.add(bk);   // upcasting → List&lt;book&gt; holds the child object</tspan></text>
+<line x1="640" y1="561" x2="640" y2="575" stroke="#5a6573" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="460.0" y="580.0" width="360" height="44" rx="22.0" fill="#bfe6cd" stroke="#3f9d6b" stroke-width="2"/>
+<text x="640" y="602.0" font-size="13" fill="#13502f" font-weight="bold" text-anchor="middle" dominant-baseline="middle"><tspan x="640" dy="0.0">“Successfully added!” · END</tspan></text>
+<line x1="560" y1="206" x2="200" y2="206" stroke="#d96666" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrR)"/>
+<text x="380.0" y="198" font-size="11.5" fill="#d96666" font-weight="bold" text-anchor="middle">else (invalid)</text>
+<rect x="45.0" y="183.0" width="150" height="46" rx="9" fill="#f6cccc" stroke="#d96666" stroke-width="2"/>
+<text x="120" y="198.5" font-size="11" fill="#7a1f1f" font-weight="normal" text-anchor="middle" dominant-baseline="middle"><tspan x="120" dy="0.0">“Invalid choice,</tspan><tspan x="120" dy="15.0" font-style="italic" font-size="9.5">input again!” → return</tspan></text>
+</svg>
