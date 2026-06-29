@@ -1,5 +1,11 @@
 package lab.pkg01;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -23,42 +29,39 @@ public class LAB01 {
     // Định dạng ngày dùng chung cho LAB01
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    // constructor: nạp sẵn dữ liệu mẫu
+    private static final String DATA_DIR = "data";
+    private static final String BOOKS_FILE = "data/books.txt";
+    private static final String MEMBERS_FILE = "data/members.txt";
+    private static final String BORROWINGS_FILE = "data/borrowings.txt";
+
     public LAB01() {
-        seedData();
-    }
+        if (new File(BOOKS_FILE).exists()) {
+            loadData();
+        } else {
+            Novel b01 = new Novel("B01", "Truyen Kieu", "Nguyen Du", "1820", 4, "Romance");
+            Textbook b02 = new Textbook("B02", "Mathematics 9", "Phan Duc Chinh", "2005", 1, "Mathematics");
+            Comic b03 = new Comic("B03", "Tham Tu Conan", "Gosho Aoyama", "1994", 9, 42);
+            Others b04 = new Others("B04", "Tu Dien Tieng Viet", "Hoang Phe", "2018", 4, "Dictionary");
+            bookList.add(b01);
+            bookList.add(b02);
+            bookList.add(b03);
+            bookList.add(b04);
 
-    // Dữ liệu mẫu: 3 sách (mỗi lớp con) và 3 thành viên
-    private void seedData() {
-        bookList.add(new Novel("B01", "Truyen Kieu", "Nguyen Du", "1820", 5, "Romance"));
-        bookList.add(new Textbook("B02", "Mathematics 9", "Phan Duc Chinh", "2005", 3, "Mathematics"));
-        bookList.add(new Comic("B03", "Tham Tu Conan", "Gosho Aoyama", "1994", 10, 42));
-        bookList.add(new Others("B04", "Tu Dien Tieng Viet", "Hoang Phe", "2018", 4, "Dictionary"));
+            Member m01 = new Member("M01", "Nguyen Van A", "vana@gmail.com", "0901111111");
+            Member m02 = new Member("M02", "Tran Thi B", "thib@gmail.com", "0902222222");
+            Member m03 = new Member("M03", "Le Van C", "vanc@gmail.com", "0903333333");
+            memberList.add(m01);
+            memberList.add(m02);
+            memberList.add(m03);
 
-        memberList.add(new Member("M01", "Nguyen Van A", "vana@gmail.com", "0901111111"));
-        memberList.add(new Member("M02", "Tran Thi B", "thib@gmail.com", "0902222222"));
-        memberList.add(new Member("M03", "Le Van C", "vanc@gmail.com", "0903333333"));
-
-        // M01 mượn sẵn 3 cuốn (= giới hạn tối đa) để test trường hợp mượn quá số lượng
-        seedBorrow("M01", "B01");
-        seedBorrow("M01", "B02");
-        seedBorrow("M01", "B03");
-
-        // M02 mượn B02 từ 30 ngày trước, chưa trả -> sách quá hạn để test báo cáo
-        seedBorrow("M02", "B02", LocalDate.now().minusDays(30));
-    }
-
-    // Tạo 1 lượt mượn mẫu với ngày mượn = hôm nay
-    private void seedBorrow(String memberID, String bookID) {
-        seedBorrow(memberID, bookID, LocalDate.now());
-    }
-
-    // Tạo 1 lượt mượn mẫu: thêm record và giảm số lượng sách trong kho
-    private void seedBorrow(String memberID, String bookID, LocalDate borrowDate) {
-        borrowList.add(new Borrowing(memberID, bookID, borrowDate, null, false));
-        book bk = timSachTheoID(bookID);
-        if (bk != null) {
-            bk.setQuantity(bk.getQuantity() - 1);
+            Borrowing br1 = new Borrowing("M01", "B01", LocalDate.now(), null, false);
+            Borrowing br2 = new Borrowing("M01", "B02", LocalDate.now(), null, false);
+            Borrowing br3 = new Borrowing("M01", "B03", LocalDate.now(), null, false);
+            Borrowing br4 = new Borrowing("M02", "B02", LocalDate.now().minusDays(30), null, false);
+            borrowList.add(br1);
+            borrowList.add(br2);
+            borrowList.add(br3);
+            borrowList.add(br4);
         }
     }
 
@@ -72,11 +75,13 @@ public class LAB01 {
             System.out.println("2. Manage Members");
             System.out.println("3. Borrowing/Returning");
             System.out.println("4. Reports");
-            System.out.println("5. Exit");
+            System.out.println("5. Save to file");
+            System.out.println("6. Load from file");
+            System.out.println("7. Exit");
             System.out.println("================================");
             System.out.print("Select your choice: ");
             choice = nhapSoNguyen();
- 
+
             switch (choice) {
                 case 1: {
                     showMenuBook();
@@ -95,6 +100,15 @@ public class LAB01 {
                     break;
                 }
                 case 5: {
+                    saveData();
+                    break;
+                }
+                case 6: {
+                    loadData();
+                    break;
+                }
+                case 7: {
+                    saveData();
                     System.out.println("Exiting program... Goodbye!");
                     break;
                 }
@@ -102,7 +116,7 @@ public class LAB01 {
                     System.out.println("Invalid choice, please input again!");
                 }
             }
-        } while (choice != 5);
+        } while (choice != 7);
     }
  
     // ===================== MENU SÁCH =====================
@@ -303,7 +317,7 @@ public class LAB01 {
         } while (choice != 5);
     }
  
-    // ===================== CHỨC NĂNG THÀNH VIÊN =====================
+ 
     public void addMember() {
     Member mb = new Member();
     mb.inputInfor();
@@ -445,7 +459,7 @@ public class LAB01 {
         if (borrowDate == null) return;
  
         System.out.println("[1] Confirm  [2] Cancel");
-        int confirm = sc.nextInt(); sc.nextLine(); // clear buffer
+        int confirm = nhapSoNguyen();
         if (confirm != 1) {
             System.out.println("Operation cancelled.");
             return;
@@ -498,7 +512,7 @@ public class LAB01 {
         if (returnDate == null) return;
  
         System.out.println("[1] Confirm  [2] Cancel");
-        int confirm = sc.nextInt(); sc.nextLine(); // clear buffer
+        int confirm = nhapSoNguyen();
         if (confirm != 1) {
             System.out.println("Operation cancelled.");
             return;
@@ -508,13 +522,14 @@ public class LAB01 {
         record.setReturned(true);// đã trả
         bk.setQuantity(bk.getQuantity() + 1);// trả thì số lượng trong kho tăng lên 1
  
+        long soNgayQuaHan = record.tinhNgayQuaHan(returnDate);
         long tienPhat = record.tinhTienPhat(returnDate);
         if (tienPhat == 0) {
             System.out.printf("Book: '%s' returned by '%s'. Not overdue.%n",
                     bk.getNameBook(), mb.getNameMember());
         } else {
-            System.out.printf("Book: '%s' returned by '%s'. Overdue | fine: %,d VND.%n",
-                    bk.getNameBook(), mb.getNameMember(), tienPhat);
+            System.out.printf("Book: '%s' returned by '%s'. Overdue: %d day(s) | fine: %,d VND.%n",
+                    bk.getNameBook(), mb.getNameMember(), soNgayQuaHan, tienPhat);
         }
     }
  
@@ -741,5 +756,131 @@ public class LAB01 {
             System.out.println("Books returned: " + returnedBooks);
             System.out.println("================================");
         }
-   
+
+    public void saveData() {
+        new File(DATA_DIR).mkdirs();
+        try {
+            saveBooks();
+            saveMembers();
+            saveBorrowings();
+            System.out.println("Data saved to '" + DATA_DIR + "/' successfully!");
+        } catch (IOException e) {
+            System.out.println("Could not save data: " + e.getMessage());
+        }
+    }
+
+    private void saveBooks() throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(BOOKS_FILE));
+        for (book bk : bookList) {
+            String common = bk.getBookID() + "|" + bk.getNameBook() + "|"
+                    + bk.getAuthor() + "|" + bk.getPublicationYear() + "|"
+                    + bk.getQuantity();
+
+            if (bk instanceof Novel) {
+                pw.println("NOVEL|" + common + "|" + ((Novel) bk).getGenre());
+            } else if (bk instanceof Comic) {
+                pw.println("COMIC|" + common + "|" + ((Comic) bk).getIssueNumber());
+            } else if (bk instanceof Textbook) {
+                pw.println("TEXTBOOK|" + common + "|" + ((Textbook) bk).getSubject());
+            } else if (bk instanceof Others) {
+                pw.println("OTHERS|" + common + "|" + ((Others) bk).getNote());
+            }
+        }
+        pw.close();
+    }
+
+    private void saveMembers() throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(MEMBERS_FILE));
+        for (Member mb : memberList) {
+            pw.println(mb.getMemberID() + "|" + mb.getNameMember() + "|"
+                    + mb.getEmail() + "|" + mb.getPhoneNumber());
+        }
+        pw.close();
+    }
+
+    private void saveBorrowings() throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(BORROWINGS_FILE));
+        for (Borrowing br : borrowList) {
+            String borrow = br.getBorrowDate().format(FMT);
+            String ret = (br.getReturnDate() == null) ? "null" : br.getReturnDate().format(FMT);
+            pw.println(br.getMemberID() + "|" + br.getBookID() + "|"
+                    + borrow + "|" + ret + "|" + br.isReturned());
+        }
+        pw.close();
+    }
+
+    public void loadData() {
+        bookList.clear();
+        memberList.clear();
+        borrowList.clear();
+        try {
+            loadBooks();
+            loadMembers();
+            loadBorrowings();
+            System.out.println("Data loaded: " + bookList.size() + " books, "
+                    + memberList.size() + " members, " + borrowList.size() + " borrowings.");
+        } catch (IOException e) {
+            System.out.println("Could not load data: " + e.getMessage());
+        }
+    }
+
+    private void loadBooks() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(BOOKS_FILE));
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue;
+
+            String[] p = line.split("\\|");
+            String type = p[0];
+            String bookID = p[1];
+            String name = p[2];
+            String author = p[3];
+            String year = p[4];
+            int quantity = Integer.parseInt(p[5]);
+
+            switch (type) {
+                case "NOVEL":
+                    bookList.add(new Novel(bookID, name, author, year, quantity, p[6]));
+                    break;
+                case "COMIC":
+                    bookList.add(new Comic(bookID, name, author, year, quantity, Integer.parseInt(p[6])));
+                    break;
+                case "TEXTBOOK":
+                    bookList.add(new Textbook(bookID, name, author, year, quantity, p[6]));
+                    break;
+                case "OTHERS":
+                    bookList.add(new Others(bookID, name, author, year, quantity, p[6]));
+                    break;
+                default:
+                    System.out.println("Unknown book type skipped: " + type);
+            }
+        }
+        br.close();
+    }
+
+    private void loadMembers() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(MEMBERS_FILE));
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue;
+            String[] p = line.split("\\|");
+            memberList.add(new Member(p[0], p[1], p[2], p[3]));
+        }
+        br.close();
+    }
+
+    private void loadBorrowings() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(BORROWINGS_FILE));
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue;
+            String[] p = line.split("\\|");
+            LocalDate borrowDate = LocalDate.parse(p[2], FMT);
+            LocalDate returnDate = p[3].equals("null") ? null : LocalDate.parse(p[3], FMT);
+            boolean returned = Boolean.parseBoolean(p[4]);
+            borrowList.add(new Borrowing(p[0], p[1], borrowDate, returnDate, returned));
+        }
+        br.close();
+    }
+
 }
