@@ -35,7 +35,7 @@
 
 > **Goal:** Re-build the whole project from zero in the **smallest possible steps**, so you understand every line and can defend it in front of the review panel (hội đồng).
 >
-> **How to read this file:** Work top to bottom. The project is split into **9 Modules**; each Module is split into **Steps**; complex Steps are split again into lettered **micro-actions (a, b, c…)**. Every Step has the same 4 parts:
+> **How to read this file:** Work top to bottom. The project is split into **11 Modules** (Modules 1–8 = the core app, 9–11 = Milestone 4 File I/O); each Module is split into **Steps**; complex Steps are split again into lettered **micro-actions (a, b, c…)**. Every Step has the same 4 parts:
 > - **▸ Do** — the exact thing to write (micro-actions listed a, b, c…).
 > - **▸ Why** — the concept it teaches / why it exists.
 > - **▸ Trap** — the mistake people make here (skip if none).
@@ -43,7 +43,7 @@
 >
 > Tick `[ ]` → `[x]` as you finish. **Never skip ahead** — each Step builds on the previous one.
 >
-> **Naming rule:** Keep the existing Vietnamese method names exactly (`timSachTheoID`, `muonSach`, `traSach`, `nhapSoNguyen`, `nhapNgay`, `tinhNgayQuaHan`, `tinhTienPhat`, `xemSachQuaHan`, `xemDanhSachDangMuon`, `lichSuMuonTheoMember`, `seedBorrow`, `getThongTinChiTiet`). Everything else is English.
+> **Naming rule:** Keep the existing Vietnamese method names exactly (`timSachTheoID`, `muonSach`, `traSach`, `nhapSoNguyen`, `nhapNgay`, `tinhNgayQuaHan`, `tinhTienPhat`, `xemSachQuaHan`, `xemDanhSachDangMuon`, `lichSuMuonTheoMember`, `getThongTinChiTiet`). Everything else is English.
 
 ---
 
@@ -59,7 +59,7 @@ PHASE 1 — MODEL LAYER  (package schema)        "the data + its behavior"
   Module 4: Borrowing.java       owns overdue + fine logic
 
 PHASE 2 — CONTROLLER LAYER  (package lab.pkg01)   "menus + workflows"
-  Module 5: LAB01 skeleton       main, menu loop, seed data, input helpers
+  Module 5: LAB01 skeleton       main, menu loop, hardcoded starter data, input helpers
   Module 6: Book management      add / list / find / remove
   Module 7: Member management    add / list / find / remove
   Module 8: Borrow / Return + Reports
@@ -125,7 +125,7 @@ Every entity prints as a table with a **separator line** + a **format string**. 
 
 - [ ] **Step 1.4 — Full-arg constructor**
   - ▸ Do: `public book(String bookID, String nameBook, String author, String publicationYear, int quantity)`, then assign all 5 with `this.field = field`.
-  - ▸ Why: One-line creation for `seedData()`. Two constructors = **overloading**.
+  - ▸ Why: One-line creation for the hardcoded starter data. Two constructors = **overloading**.
   - ▸ Trap: Use `this.` — `bookID = bookID` assigns the parameter to itself.
   - ▸ Check: `new book("B01","x","y","2000",5)` compiles.
 
@@ -330,7 +330,7 @@ Every entity prints as a table with a **separator line** + a **format string**. 
 
 ## Module 5 — Program skeleton & input helpers
 
-> Outcome: the app launches, shows a working main menu, has seed data + safe input. No real features yet.
+> Outcome: the app launches, shows a working main menu, has hardcoded starter data + safe input. No real features yet.
 
 - [ ] **Step 5.1 — File + imports + class**
   - ▸ Do: `src/lab/pkg01/LAB01.java`, `package lab.pkg01;`. Import `java.util.{ArrayList,List,Scanner}`, `java.time.{LocalDate}`, `java.time.format.{DateTimeFormatter,DateTimeParseException}`, and `schema.*`.
@@ -372,40 +372,34 @@ Every entity prints as a table with a **separator line** + a **format string**. 
   - ▸ Why: navigation backbone — features hang off this switch.
   - ▸ Check: you can navigate; 5 exits; bad number → "Invalid".
 
-- [ ] **Step 5.10 — `seedBorrow(memberID, bookID, LocalDate borrowDate)` (3-arg): add the record**
-  - ▸ Do: `borrowList.add(new Borrowing(memberID, bookID, borrowDate, null, false));`
-  - ▸ Check: compiles (you'll add the quantity drop next).
+> **Note:** the starter data is **hardcoded directly in the constructor** — no `seedData()`/`seedBorrow()`
+> helper. Each object gets an explicit `Type var = new Type(...)` line, then is added to its list. This
+> compiles and runs on its own (it needs nothing from Module 6).
 
-- [ ] **Step 5.11 — `seedBorrow` (3-arg): drop the stock**
-  - ▸ Do: `book bk = timSachTheoID(bookID); if (bk != null) bk.setQuantity(bk.getQuantity() - 1);`
-  - ▸ Why: keeps the golden rule even for seeded data.
-  - ▸ Note: `timSachTheoID` is written in Module 6; this resolves once that exists.
-
-- [ ] **Step 5.12 — `seedBorrow(memberID, bookID)` (2-arg overload)**
-  - ▸ Do: `seedBorrow(memberID, bookID, LocalDate.now());`
-  - ▸ Why: **Overloading** — default date "today".
-
-- [ ] **Step 5.13 — `seedData()`: add 4 books**
-  - ▸ Do: `bookList.add(new Novel(...)); ... new Textbook(...); new Comic(...); new Others(...);` — one of each type, distinct IDs (B01–B04).
+- [ ] **Step 5.10 — Constructor: hardcode the 4 books**
+  - ▸ Do: in `public LAB01() { ... }`, create one of each subclass with a named variable, then add it:
+    - `Novel b01 = new Novel("B01","Truyen Kieu","Nguyen Du","1820",4,"Romance");`
+    - `Textbook b02 = new Textbook("B02","Mathematics 9","Phan Duc Chinh","2005",1,"Mathematics");`
+    - `Comic b03 = new Comic("B03","Tham Tu Conan","Gosho Aoyama","1994",9,42);`
+    - `Others b04 = new Others("B04","Tu Dien Tieng Viet","Hoang Phe","2018",4,"Dictionary");`
+    - then `bookList.add(b01);` … `add(b04);`
+  - ▸ Why: explicit `Type var = new Type(...)` makes every object visible; using each subclass's **full constructor** shows inheritance + overloading at work.
+  - ▸ Trap: `quantity` is the copies **left in stock** — set it already reduced by the copies on loan in Step 5.12 (that's why B01=4, B02=1, B03=9, B04=4, not the catalog totals).
   - ▸ Check: 4 books at startup.
 
-- [ ] **Step 5.14 — `seedData()`: add 3 members**
-  - ▸ Do: `memberList.add(new Member("M01", ...)); M02; M03;`.
+- [ ] **Step 5.11 — Constructor: hardcode the 3 members**
+  - ▸ Do: `Member m01 = new Member("M01","Nguyen Van A","vana@gmail.com","0901111111");` … `m02`, `m03`; then `memberList.add(m01);` …
   - ▸ Check: 3 members.
 
-- [ ] **Step 5.15 — `seedData()`: seed the "borrow-limit" scenario**
-  - ▸ Do: `seedBorrow("M01","B01"); seedBorrow("M01","B02"); seedBorrow("M01","B03");` — M01 now holds 3 (the max).
-  - ▸ Why: ready-made test for the limit rule.
+- [ ] **Step 5.12 — Constructor: hardcode the borrow records (test scenarios)**
+  - ▸ Do: create 4 `Borrowing` objects and add them:
+    - `new Borrowing("M01","B01",LocalDate.now(),null,false)` for B01, B02, B03 → M01 holds 3 (the **borrow-limit** scenario).
+    - `new Borrowing("M02","B02",LocalDate.now().minusDays(30),null,false)` → unreturned & 30 days old (the **overdue** scenario).
+  - ▸ Why: ready-made data to demo the borrow-limit rule and the overdue report.
+  - ▸ Trap: these borrows are exactly why the stock numbers in 5.10 are already reduced — keep them consistent (each active borrow = one copy off the shelf).
+  - ▸ Check: startup has 4 borrow records; M01 is at the limit; B02 shows overdue in reports.
 
-- [ ] **Step 5.16 — `seedData()`: seed the "overdue" scenario**
-  - ▸ Do: `seedBorrow("M02","B02", LocalDate.now().minusDays(30));` — unreturned, 30 days old.
-  - ▸ Why: ready-made test for the overdue report.
-
-- [ ] **Step 5.17 — Constructor calls `seedData()`**
-  - ▸ Do: `public LAB01() { seedData(); }`
-  - ▸ Check: data present at startup. (Full run requires Module 6's `timSachTheoID` — compile both together.)
-
-- [ ] **✅ Module 5 done when:** app launches with seed data, menu navigates and exits, bad input never crashes it.
+- [ ] **✅ Module 5 done when:** app launches with the hardcoded starter data, menu navigates and exits, bad input never crashes it. Unlike a seed helper, this compiles and runs **standalone** — no dependency on Module 6.
 
 ---
 
@@ -420,7 +414,7 @@ Every entity prints as a table with a **separator line** + a **format string**. 
 
 - [ ] **Step 6.2 — `showListBook()`**
   - ▸ Do: a) if `bookList.isEmpty()` print "Empty list!" + return; b) `book.showHeader();` c) `for (book bk : bookList) bk.showInfor();`.
-  - ▸ Check: prints all seeded books aligned.
+  - ▸ Check: prints all starter books aligned.
 
 - [ ] **Step 6.3 — `findBook(String bookID)`**
   - ▸ Do: loop; on match print `book.showHeader()` + `bk.showInfor()` and `return true`; after loop print "Unable to find..." + `return false`.
@@ -546,7 +540,7 @@ Every entity prints as a table with a **separator line** + a **format string**. 
 
 - [ ] **Step 8.16 — `xemSachQuaHan()`**
   - ▸ Do: `LocalDate today = LocalDate.now();` loop unreturned records; if `tinhNgayQuaHan(today) > 0` print `showInfor()` + "Overdue Days: N" + a divider. None → "No overdue books."
-  - ▸ Check: lists exactly the seeded overdue copy.
+  - ▸ Check: lists exactly the hardcoded overdue copy.
 
 - [ ] **Step 8.17 — `showPopularBooks()` pass 1: find the max**
   - ▸ Do: a) if `borrowList.isEmpty()` → "No data yet!" + return; b) `int max = 0;` for each book, count its appearances in `borrowList`; track the largest into `max`.
@@ -564,12 +558,198 @@ Every entity prints as a table with a **separator line** + a **format string**. 
 - [ ] **Step 8.21 — `showMenuReport()`** — 6-option submenu (1 Borrowed→`xemDanhSachDangMuon`, 2 Overdue, 3 Popular, 4 Top members, 5 Stats, 6 Return).
 - [ ] **Step 8.22 — Wire into `showMenu()`** — case 4.
 
-- [ ] **✅ Module 8 done when (test against seed data):**
+- [ ] **✅ Module 8 done when (test against the hardcoded starter data):**
   - M01 can't borrow a 4th book;
   - returning M02's overdue B02 shows the right fine;
   - Overdue report lists exactly that copy;
   - out-of-stock / double-borrow are blocked;
   - Popular books / Top members are correct.
+
+---
+
+# MILESTONE 4 — PERSISTENCE & ROBUSTNESS (File I/O + Exception Handling)
+
+> **Why this milestone exists:** right now everything lives in RAM — close the program and all
+> added books/members/borrows vanish, then the hardcoded starter data rebuilds the same demo every launch.
+> Here you make the library **survive a restart** by writing it to text files and reading it back,
+> and you make the program **never crash** on bad input or a missing file.
+>
+> **⚠️ New territory:** File I/O and `try-catch` aren't taught in class yet, so each step below
+> explains the *new tool* it introduces in one plain sentence. Go slow; compile after each step.
+
+### The 4 brand-new Java tools you'll meet here
+
+| Tool | One-line meaning |
+|------|------------------|
+| `try { … } catch (IOException e) { … }` | "Try this risky code; if it fails, run the catch block instead of crashing." |
+| `PrintWriter` + `FileWriter` | The **writing** pair. `FileWriter` opens a file for writing; `PrintWriter` wraps it so you get `println()`. |
+| `BufferedReader` + `FileReader` | The **reading** pair. `FileReader` opens a file for reading; `BufferedReader` wraps it so you get `readLine()`. |
+| `String.split("\\|")` | Cuts one line `"A|B|C"` into an array `["A","B","C"]`. |
+| `new File(path).exists()` / `.mkdirs()` | Ask if a file exists / create a folder. |
+
+### The file format you're saving to (plain text, one object per line, `|` between fields)
+
+```
+data/books.txt       TYPE|bookID|name|author|year|quantity|extra
+                     NOVEL|B01|Truyen Kieu|Nguyen Du|1820|4|Romance
+                     COMIC|B03|Tham Tu Conan|Gosho Aoyama|1994|9|42
+data/members.txt     memberID|name|email|phone
+                     M01|Nguyen Van A|vana@gmail.com|0901111111
+data/borrowings.txt  memberID|bookID|borrowDate|returnDate|returned
+                     M02|B02|31/05/2026|null|false
+```
+> The **TYPE** word at the front of each book line is the trick that lets the reader know which
+> subclass (`Novel`/`Comic`/`Textbook`/`Others`) to rebuild. `returnDate` is the literal word
+> `null` when the book hasn't been returned yet.
+
+---
+
+## Module 9 — Save to file (WRITE)
+
+> Outcome: a menu option that dumps all three lists into readable `.txt` files.
+
+- [ ] **Step 9.1 — Add imports + file-path constants**
+  - ▸ Do:
+    - a) At the top add: `import java.io.File; import java.io.FileWriter; import java.io.PrintWriter; import java.io.IOException;` (and `BufferedReader`, `FileReader` — you'll need them in Module 10).
+    - b) Near your other fields add 4 constants: `DATA_DIR = "data"`, `BOOKS_FILE = "data/books.txt"`, `MEMBERS_FILE`, `BORROWINGS_FILE`.
+  - ▸ Why: constants keep file paths in **one place** — change the folder once, not in 6 spots.
+  - ▸ Check: compiles (unused imports are fine for now).
+
+- [ ] **Step 9.2 — `saveData()`: the orchestrator**
+  - ▸ Do:
+    - a) `new File(DATA_DIR).mkdirs();` — creates the `data/` folder if missing.
+    - b) Wrap three calls — `saveBooks(); saveMembers(); saveBorrowings();` — inside `try { … } catch (IOException e) { print "Could not save data: " + e.getMessage(); }`.
+    - c) On success print `"Data saved..."`.
+  - ▸ Why: **try-catch** = "if writing fails (disk full, no permission), show a message instead of crashing." That one `catch` is your whole exception-handling story for saving.
+  - ▸ Trap: the three savers will `throw IOException` — `saveData()` must catch it, OR the code won't compile.
+  - ▸ Check: compiles once 9.3–9.5 exist.
+
+- [ ] **Step 9.3 — `saveBooks()`: write each book, detect its type**
+  - ▸ Do:
+    - a) `PrintWriter pw = new PrintWriter(new FileWriter(BOOKS_FILE));` — opens the file (declare the method `throws IOException`).
+    - b) Loop `bookList`. Build the 5 **common** fields into one string joined by `"|"`.
+    - c) Use an **`instanceof` chain**: `if (bk instanceof Novel) pw.println("NOVEL|" + common + "|" + ((Novel) bk).getGenre());` … and the same for `Comic`(issueNumber) / `Textbook`(subject) / `Others`(note).
+    - d) `pw.close();` — **always close**, or the file may be empty/locked.
+  - ▸ Why: `List<book>` hides the real type, but at runtime each object still **knows** what it is. `instanceof` asks "what are you really?", the cast `((Novel) bk)` unlocks the subclass-only getter. **This is your #1 polymorphism talking point.**
+  - ▸ Trap: forgetting `pw.close()` → data not flushed to disk.
+  - ▸ Check: after wiring the menu, saving writes a `books.txt` you can open in Notepad.
+
+- [ ] **Step 9.4 — `saveMembers()`**
+  - ▸ Do: same `PrintWriter`/`FileWriter` pattern; for each member `println(memberID + "|" + name + "|" + email + "|" + phone)`; `close()`. Declare `throws IOException`.
+  - ▸ Trap: keep the field order identical to the `Member` constructor (ID, name, email, phone) — Module 10 reads them back in that order.
+  - ▸ Check: `members.txt` has one line per member.
+
+- [ ] **Step 9.5 — `saveBorrowings()`: dates + the null case**
+  - ▸ Do:
+    - a) For each record, `String borrow = br.getBorrowDate().format(FMT);` (turns a `LocalDate` into `"dd/MM/yyyy"`).
+    - b) `returnDate` may be `null` (not returned) → write the word `"null"`; else `br.getReturnDate().format(FMT)`. Use a ternary: `(br.getReturnDate() == null) ? "null" : br.getReturnDate().format(FMT)`.
+    - c) `println(memberID + "|" + bookID + "|" + borrow + "|" + ret + "|" + br.isReturned());`
+  - ▸ Why: you reuse the **same `FMT`** you already built in Module 4 — one date format everywhere.
+  - ▸ Trap: calling `.format()` on a `null` returnDate → `NullPointerException`. That's exactly why the `"null"` check exists.
+  - ▸ Check: `borrowings.txt` shows `null` for unreturned books, a real date for returned ones.
+
+- [ ] **Step 9.6 — Add the "Save to file" menu option**
+  - ▸ Do: in `showMenu()` add option `5. Save to file` → `case 5: saveData();`.
+  - ▸ Check: choosing 5 prints "Data saved" and the 3 files appear in `data/`.
+
+- [ ] **✅ Module 9 done when:** after adding a book then choosing Save, all three `data/*.txt` files exist and contain your data in readable form (open them in Notepad to prove it).
+
+---
+
+## Module 10 — Load from file (READ)
+
+> Outcome: rebuild all three lists from the `.txt` files — the exact reverse of Module 9.
+
+- [ ] **Step 10.1 — `loadData()`: the orchestrator**
+  - ▸ Do:
+    - a) **Clear** the three lists first (`bookList.clear();` …) so loading replaces, not duplicates.
+    - b) Call `loadBooks(); loadMembers(); loadBorrowings();` inside `try { … } catch (IOException e) { print "Could not load data: " + e.getMessage(); }`.
+    - c) Print a summary: how many books / members / borrowings were loaded.
+  - ▸ Why: clearing first means hitting "Load" twice doesn't give you double the books.
+  - ▸ Trap: if you forget `.clear()`, every Load **appends** — list keeps growing.
+  - ▸ Check: compiles once 10.2–10.4 exist.
+
+- [ ] **Step 10.2 — `loadBooks()`: read lines, rebuild the right subclass**
+  - ▸ Do:
+    - a) `BufferedReader br = new BufferedReader(new FileReader(BOOKS_FILE));` (method `throws IOException`).
+    - b) Loop with `String line; while ((line = br.readLine()) != null) { … }` — `readLine()` returns one line, or `null` at end-of-file (that's the loop's stop signal).
+    - c) `String[] p = line.split("\\|");` then read `p[0]` (TYPE), `p[1]` (bookID) …; `int quantity = Integer.parseInt(p[5]);` (text `"4"` → number `4`).
+    - d) `switch (p[0])`: `"NOVEL"` → `bookList.add(new Novel(..., p[6]));`, `"COMIC"` → `new Comic(..., Integer.parseInt(p[6]))`, etc.
+    - e) `br.close();`
+  - ▸ Why: the saved **TYPE** word tells you which constructor to call — this is how you turn flat text back into the correct object. It's the mirror image of the `instanceof` chain in 9.3.
+  - ▸ **Trap (important):** `line.split("|")` is **WRONG** — in a regex `|` means "OR", so it splits between every character. You must escape it: `line.split("\\|")`.
+  - ▸ Trap: `Comic.issueNumber` is an `int` — wrap it in `Integer.parseInt(p[6])`, not just `p[6]`.
+  - ▸ Check: after Load, "Display all books" shows exactly what was in the file.
+
+- [ ] **Step 10.3 — `loadMembers()`**
+  - ▸ Do: `readLine` loop; `String[] p = line.split("\\|");` then `memberList.add(new Member(p[0], p[1], p[2], p[3]));` `close()`.
+  - ▸ Check: members reload correctly.
+
+- [ ] **Step 10.4 — `loadBorrowings()`: parse dates, undo the null trick**
+  - ▸ Do:
+    - a) `LocalDate borrowDate = LocalDate.parse(p[2], FMT);` (text → date, using your `FMT`).
+    - b) `LocalDate returnDate = p[3].equals("null") ? null : LocalDate.parse(p[3], FMT);` — turns the word `"null"` back into a real `null`.
+    - c) `boolean returned = Boolean.parseBoolean(p[4]);` (text `"true"`/`"false"` → boolean).
+    - d) `borrowList.add(new Borrowing(p[0], p[1], borrowDate, returnDate, returned));`
+  - ▸ Why: `Borrowing` stores **IDs**, not object references — so loading is trivial: no need to relink to book/member objects, the lookups already happen by ID elsewhere.
+  - ▸ Trap: `LocalDate.parse("null", FMT)` would throw — that's why you check for `"null"` first.
+  - ▸ Check: returned vs. not-returned status survives a save+load round-trip.
+
+- [ ] **Step 10.5 — Add the "Load from file" menu option**
+  - ▸ Do: add `6. Load from file` → `case 6: loadData();`.
+  - ▸ Check: choosing 6 prints the "Data loaded: N books…" summary.
+
+- [ ] **✅ Module 10 done when:** Save → exit → relaunch → Load shows the *same* data you saved. Edit a number inside `books.txt` by hand, Load, and confirm the change appears — proof it's truly reading the file.
+
+---
+
+## Module 11 — Wire-up & robustness
+
+> Outcome: persistence is automatic, and the two crash-prone confirm prompts are made safe.
+
+- [ ] **Step 11.1 — Auto-load on startup (first run uses hardcoded data, later runs load)**
+  - ▸ Do: in the `LAB01()` constructor, wrap the hardcoded starter data (the books/members/borrows from Module 5) in an `else` so it only runs when there's no save file yet:
+    ```
+    if (new File(BOOKS_FILE).exists()) {
+        loadData();
+    } else {
+        // ... the hardcoded Novel/Textbook/Comic/Others + Member + Borrowing block ...
+    }
+    ```
+  - ▸ Why: the **first** ever run has no file → use the hardcoded demo data; **every run after a save** finds the file → load real data. This is the behaviour the panel wants to see.
+  - ▸ Trap: check the *file*, not the folder — an empty `data/` folder with no `books.txt` should still fall back to the hardcoded data.
+  - ▸ Check: delete `data/`, run → hardcoded data; Save+exit; run again → "Data loaded".
+
+- [ ] **Step 11.2 — Auto-save on exit + new exit number**
+  - ▸ Do: your main menu now has 5 (Save) and 6 (Load), so **Exit moves to 7**. Update: the printed `7. Exit`, `case 7:` → `saveData();` then print Goodbye, and the loop condition `while (choice != 7);`.
+  - ▸ Why: auto-saving on exit means a user who forgets to hit "Save" still keeps their work.
+  - ▸ Trap: forgetting to change `while (choice != 5)` → `!= 7` will exit the program on the wrong key.
+  - ▸ Check: exiting writes the files even if you never chose option 5.
+
+- [ ] **Step 11.3 — Stop the confirm-prompt crash (exception hardening)**
+  - ▸ Do: in `muonSach()` and `traSach()`, replace `int confirm = sc.nextInt(); sc.nextLine();` with `int confirm = nhapSoNguyen();`.
+  - ▸ Why: `sc.nextInt()` **throws `InputMismatchException` and crashes** if the user types a letter. `nhapSoNguyen()` (built in Module 5) already loops with `try-catch`, so a bad key just re-asks. You **reuse** a safe helper instead of writing new try-catch.
+  - ▸ Trap: this was a real latent crash — type `x` at the confirm prompt in the old code and the whole program dies.
+  - ▸ Check: at a confirm prompt, typing `x` shows "Input valid number:" and waits — no stack trace.
+
+- [ ] **✅ Module 11 done when:** delete `data/` → run → add a book → exit (auto-saves) → relaunch → your book is still there; and typing a letter at any confirm prompt never crashes the program.
+
+---
+
+## 🆕 New Java concepts in Milestone 4 (be ready to explain)
+
+| Concept | Where in your code | One-sentence defense answer |
+|---------|--------------------|------------------------------|
+| Exception handling (`try-catch`) | `saveData()`, `loadData()`, `nhapSoNguyen()`, `nhapNgay()` | "Risky code (file/parse) runs in `try`; if it fails, `catch` shows a message so the program keeps running." |
+| Writing files | `saveBooks/Members/Borrowings` | "`FileWriter` opens the file, `PrintWriter` lets me `println` each object as a line." |
+| Reading files | `loadBooks/Members/Borrowings` | "`FileReader`+`BufferedReader` let me `readLine()` until `null`, then `split('\\|')` the columns." |
+| `instanceof` + casting | `saveBooks()` | "The list holds `book`, but at runtime I check the real subclass to grab its unique field." |
+| `switch` on a type tag | `loadBooks()` | "The saved TYPE word tells me which constructor to call to rebuild the right subclass." |
+
+### 3 extra panel questions for this milestone
+9. **Why plain-text CSV and not Java serialization (`.dat`)?** → readable/debuggable in Notepad, easy to explain, no `Serializable` needed.
+10. **When reading a book line, how do you know whether to build a `Novel` or a `Comic`?** → the `TYPE` word saved as the first column; `switch` on it.
+11. **Where could this still crash, and how did you guard it?** → bad menu input (guarded by `nhapSoNguyen`), bad date (guarded by `nhapNgay`), missing/locked file (guarded by `try-catch IOException`).
 
 ---
 
@@ -594,7 +774,7 @@ Be able to answer these out loud:
 | Inheritance | `Novel/Textbook/Comic/Others extends book` |
 | Polymorphism (override) | `inputInfor()`, `getThongTinChiTiet()` |
 | Polymorphism (upcasting) | `List<book>` holding subclasses; `addBook()` |
-| Overloading | two `book` constructors; two `seedBorrow(...)` |
+| Overloading | two `book` constructors (default + full) |
 | Abstraction | `book` defining shared behavior |
 | Static | `showHeader()`, `Borrowing` constants |
 | Exception handling | `nhapSoNguyen()`, `nhapNgay()` |
@@ -612,7 +792,10 @@ Be able to answer these out loud:
 - [ ] Module 6 — Book management (Steps 6.1–6.11)
 - [ ] Module 7 — Member management (Steps 7.1–7.8)
 - [ ] Module 8 — Borrow/Return + Reports (Steps 8.1–8.22)
-- [ ] Defense Prep — the 8 questions
+- [ ] Module 9 — Save to file / WRITE (Steps 9.1–9.6) · *Milestone 4*
+- [ ] Module 10 — Load from file / READ (Steps 10.1–10.5) · *Milestone 4*
+- [ ] Module 11 — Wire-up & robustness (Steps 11.1–11.3) · *Milestone 4*
+- [ ] Defense Prep — the 11 questions + CT Reflection report
 
 > 💡 **Tip:** After each Step (or small group), **compile and run**. One mistake at a time is far easier than debugging a whole class.
 >
