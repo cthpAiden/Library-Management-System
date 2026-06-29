@@ -1,5 +1,11 @@
 package lab.pkg01;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -23,42 +29,49 @@ public class LAB01 {
     // Định dạng ngày dùng chung cho LAB01
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    // constructor: nạp sẵn dữ liệu mẫu
+    // Thư mục & đường dẫn file lưu dữ liệu
+    private static final String DATA_DIR = "data";
+    private static final String BOOKS_FILE = "data/books.txt";
+    private static final String MEMBERS_FILE = "data/members.txt";
+    private static final String BORROWINGS_FILE = "data/borrowings.txt";
+
+    // constructor: lần đầu chạy -> dùng dữ liệu khởi tạo hardcode; lần sau -> nạp lại từ file đã lưu
     public LAB01() {
-        seedData();
-    }
+        // new File(...).exists() trả về true nếu file đó đã tồn tại trên ổ đĩa.
+        // Có file books.txt nghĩa là trước đó đã từng Save -> ta load lại dữ liệu cũ.
+        if (new File(BOOKS_FILE).exists()) {
+            loadData();
+        } else {
+            // ===== DỮ LIỆU KHỞI TẠO (hardcode trực tiếp, không dùng hàm seed) =====
+            // Sách: mỗi lớp con 1 cuốn. quantity = số bản CÒN LẠI trong kho
+            // (đã trừ sẵn số cuốn đang được mượn ở phần Borrowing bên dưới).
+            Novel b01 = new Novel("B01", "Truyen Kieu", "Nguyen Du", "1820", 4, "Romance");
+            Textbook b02 = new Textbook("B02", "Mathematics 9", "Phan Duc Chinh", "2005", 1, "Mathematics");
+            Comic b03 = new Comic("B03", "Tham Tu Conan", "Gosho Aoyama", "1994", 9, 42);
+            Others b04 = new Others("B04", "Tu Dien Tieng Viet", "Hoang Phe", "2018", 4, "Dictionary");
+            bookList.add(b01);
+            bookList.add(b02);
+            bookList.add(b03);
+            bookList.add(b04);
 
-    // Dữ liệu mẫu: 3 sách (mỗi lớp con) và 3 thành viên
-    private void seedData() {
-        bookList.add(new Novel("B01", "Truyen Kieu", "Nguyen Du", "1820", 5, "Romance"));
-        bookList.add(new Textbook("B02", "Mathematics 9", "Phan Duc Chinh", "2005", 3, "Mathematics"));
-        bookList.add(new Comic("B03", "Tham Tu Conan", "Gosho Aoyama", "1994", 10, 42));
-        bookList.add(new Others("B04", "Tu Dien Tieng Viet", "Hoang Phe", "2018", 4, "Dictionary"));
+            // Thành viên
+            Member m01 = new Member("M01", "Nguyen Van A", "vana@gmail.com", "0901111111");
+            Member m02 = new Member("M02", "Tran Thi B", "thib@gmail.com", "0902222222");
+            Member m03 = new Member("M03", "Le Van C", "vanc@gmail.com", "0903333333");
+            memberList.add(m01);
+            memberList.add(m02);
+            memberList.add(m03);
 
-        memberList.add(new Member("M01", "Nguyen Van A", "vana@gmail.com", "0901111111"));
-        memberList.add(new Member("M02", "Tran Thi B", "thib@gmail.com", "0902222222"));
-        memberList.add(new Member("M03", "Le Van C", "vanc@gmail.com", "0903333333"));
-
-        // M01 mượn sẵn 3 cuốn (= giới hạn tối đa) để test trường hợp mượn quá số lượng
-        seedBorrow("M01", "B01");
-        seedBorrow("M01", "B02");
-        seedBorrow("M01", "B03");
-
-        // M02 mượn B02 từ 30 ngày trước, chưa trả -> sách quá hạn để test báo cáo
-        seedBorrow("M02", "B02", LocalDate.now().minusDays(30));
-    }
-
-    // Tạo 1 lượt mượn mẫu với ngày mượn = hôm nay
-    private void seedBorrow(String memberID, String bookID) {
-        seedBorrow(memberID, bookID, LocalDate.now());
-    }
-
-    // Tạo 1 lượt mượn mẫu: thêm record và giảm số lượng sách trong kho
-    private void seedBorrow(String memberID, String bookID, LocalDate borrowDate) {
-        borrowList.add(new Borrowing(memberID, bookID, borrowDate, null, false));
-        book bk = timSachTheoID(bookID);
-        if (bk != null) {
-            bk.setQuantity(bk.getQuantity() - 1);
+            // Lượt mượn: M01 đang mượn 3 cuốn (đạt giới hạn tối đa);
+            // M02 mượn B02 từ 30 ngày trước, chưa trả -> sách quá hạn để test báo cáo.
+            Borrowing br1 = new Borrowing("M01", "B01", LocalDate.now(), null, false);
+            Borrowing br2 = new Borrowing("M01", "B02", LocalDate.now(), null, false);
+            Borrowing br3 = new Borrowing("M01", "B03", LocalDate.now(), null, false);
+            Borrowing br4 = new Borrowing("M02", "B02", LocalDate.now().minusDays(30), null, false);
+            borrowList.add(br1);
+            borrowList.add(br2);
+            borrowList.add(br3);
+            borrowList.add(br4);
         }
     }
 
@@ -72,11 +85,13 @@ public class LAB01 {
             System.out.println("2. Manage Members");
             System.out.println("3. Borrowing/Returning");
             System.out.println("4. Reports");
-            System.out.println("5. Exit");
+            System.out.println("5. Save to file");
+            System.out.println("6. Load from file");
+            System.out.println("7. Exit");
             System.out.println("================================");
             System.out.print("Select your choice: ");
             choice = nhapSoNguyen();
- 
+
             switch (choice) {
                 case 1: {
                     showMenuBook();
@@ -95,6 +110,15 @@ public class LAB01 {
                     break;
                 }
                 case 5: {
+                    saveData(); // lưu thủ công theo yêu cầu
+                    break;
+                }
+                case 6: {
+                    loadData(); // nạp lại thủ công từ file
+                    break;
+                }
+                case 7: {
+                    saveData(); // tự động lưu trước khi thoát để không mất dữ liệu
                     System.out.println("Exiting program... Goodbye!");
                     break;
                 }
@@ -102,7 +126,7 @@ public class LAB01 {
                     System.out.println("Invalid choice, please input again!");
                 }
             }
-        } while (choice != 5);
+        } while (choice != 7);
     }
  
     // ===================== MENU SÁCH =====================
@@ -303,7 +327,7 @@ public class LAB01 {
         } while (choice != 5);
     }
  
-    // ===================== CHỨC NĂNG THÀNH VIÊN =====================
+ 
     public void addMember() {
     Member mb = new Member();
     mb.inputInfor();
@@ -445,7 +469,7 @@ public class LAB01 {
         if (borrowDate == null) return;
  
         System.out.println("[1] Confirm  [2] Cancel");
-        int confirm = sc.nextInt(); sc.nextLine(); // clear buffer
+        int confirm = nhapSoNguyen(); // dùng helper an toàn: gõ chữ sẽ hỏi lại, không crash
         if (confirm != 1) {
             System.out.println("Operation cancelled.");
             return;
@@ -498,7 +522,7 @@ public class LAB01 {
         if (returnDate == null) return;
  
         System.out.println("[1] Confirm  [2] Cancel");
-        int confirm = sc.nextInt(); sc.nextLine(); // clear buffer
+        int confirm = nhapSoNguyen(); // dùng helper an toàn: gõ chữ sẽ hỏi lại, không crash
         if (confirm != 1) {
             System.out.println("Operation cancelled.");
             return;
@@ -742,5 +766,155 @@ public class LAB01 {
             System.out.println("Books returned: " + returnedBooks);
             System.out.println("================================");
         }
-   
+
+    // ===================== FILE I/O: LƯU (WRITE) =====================
+    // saveData() là "nhạc trưởng": tạo thư mục data/ rồi gọi 3 hàm lưu con.
+    // Tất cả bọc trong try-catch để nếu ghi file lỗi thì in thông báo thay vì crash.
+    public void saveData() {
+        // mkdirs() tạo thư mục "data" nếu chưa có. Nếu đã có thì không làm gì cả.
+        new File(DATA_DIR).mkdirs();
+        try {
+            saveBooks();
+            saveMembers();
+            saveBorrowings();
+            System.out.println("Data saved to '" + DATA_DIR + "/' successfully!");
+        } catch (IOException e) {
+            // IOException = lỗi khi đọc/ghi file (ổ đầy, không có quyền ghi...).
+            System.out.println("Could not save data: " + e.getMessage());
+        }
+    }
+
+    // Ghi mỗi cuốn sách thành 1 dòng. FileWriter mở file để ghi (ghi đè nội dung cũ),
+    // PrintWriter bọc ngoài để có println() tiện dùng.
+    private void saveBooks() throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(BOOKS_FILE));
+        for (book bk : bookList) {
+            // 5 trường chung mọi loại sách đều có:
+            String common = bk.getBookID() + "|" + bk.getNameBook() + "|"
+                    + bk.getAuthor() + "|" + bk.getPublicationYear() + "|"
+                    + bk.getQuantity();
+
+            // instanceof hỏi "đối tượng này THỰC SỰ thuộc lớp con nào?".
+            // List<book> chứa cả 4 loại, nhưng lúc chạy mỗi đối tượng tự biết kiểu thật của nó.
+            // Biết kiểu -> ép kiểu (cast) để lấy trường riêng -> ghi thêm cột TYPE ở đầu.
+            if (bk instanceof Novel) {
+                pw.println("NOVEL|" + common + "|" + ((Novel) bk).getGenre());
+            } else if (bk instanceof Comic) {
+                pw.println("COMIC|" + common + "|" + ((Comic) bk).getIssueNumber());
+            } else if (bk instanceof Textbook) {
+                pw.println("TEXTBOOK|" + common + "|" + ((Textbook) bk).getSubject());
+            } else if (bk instanceof Others) {
+                pw.println("OTHERS|" + common + "|" + ((Others) bk).getNote());
+            }
+        }
+        pw.close(); // đóng file: đẩy hết dữ liệu ra đĩa và giải phóng file.
+    }
+
+    // Ghi mỗi thành viên thành 1 dòng: memberID|name|email|phone (đúng thứ tự constructor).
+    private void saveMembers() throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(MEMBERS_FILE));
+        for (Member mb : memberList) {
+            pw.println(mb.getMemberID() + "|" + mb.getNameMember() + "|"
+                    + mb.getEmail() + "|" + mb.getPhoneNumber());
+        }
+        pw.close();
+    }
+
+    // Ghi mỗi lượt mượn: memberID|bookID|borrowDate|returnDate|returned
+    private void saveBorrowings() throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(BORROWINGS_FILE));
+        for (Borrowing br : borrowList) {
+            // Ngày -> chuỗi "dd/MM/yyyy" bằng FMT.format(...).
+            String borrow = br.getBorrowDate().format(FMT);
+            // returnDate có thể là null (sách chưa trả) -> ghi chữ "null" để lúc đọc nhận ra.
+            String ret = (br.getReturnDate() == null) ? "null" : br.getReturnDate().format(FMT);
+            pw.println(br.getMemberID() + "|" + br.getBookID() + "|"
+                    + borrow + "|" + ret + "|" + br.isReturned());
+        }
+        pw.close();
+    }
+
+    // ===================== FILE I/O: NẠP (READ) =====================
+    // loadData() xóa 3 list hiện tại rồi đọc lại từ file (bọc try-catch chống crash).
+    public void loadData() {
+        bookList.clear();
+        memberList.clear();
+        borrowList.clear();
+        try {
+            loadBooks();
+            loadMembers();
+            loadBorrowings();
+            System.out.println("Data loaded: " + bookList.size() + " books, "
+                    + memberList.size() + " members, " + borrowList.size() + " borrowings.");
+        } catch (IOException e) {
+            System.out.println("Could not load data: " + e.getMessage());
+        }
+    }
+
+    // Đọc books.txt từng dòng, tách cột, dựng lại đúng lớp con theo cột TYPE.
+    private void loadBooks() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(BOOKS_FILE));
+        String line;
+        // readLine() trả về 1 dòng, hoặc null khi hết file -> vòng lặp dừng.
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue; // bỏ qua dòng trống
+
+            // BẪY: split("|") sai vì "|" trong regex nghĩa là "hoặc".
+            // Phải escape thành "\\|" để tách đúng theo ký tự gạch đứng.
+            String[] p = line.split("\\|");
+            String type = p[0];
+            String bookID = p[1];
+            String name = p[2];
+            String author = p[3];
+            String year = p[4];
+            int quantity = Integer.parseInt(p[5]); // chuỗi "5" -> số 5
+
+            // Biết TYPE -> new đúng lớp con. Đây là chiều ngược của instanceof lúc ghi.
+            switch (type) {
+                case "NOVEL":
+                    bookList.add(new Novel(bookID, name, author, year, quantity, p[6]));
+                    break;
+                case "COMIC":
+                    bookList.add(new Comic(bookID, name, author, year, quantity, Integer.parseInt(p[6])));
+                    break;
+                case "TEXTBOOK":
+                    bookList.add(new Textbook(bookID, name, author, year, quantity, p[6]));
+                    break;
+                case "OTHERS":
+                    bookList.add(new Others(bookID, name, author, year, quantity, p[6]));
+                    break;
+                default:
+                    System.out.println("Unknown book type skipped: " + type);
+            }
+        }
+        br.close();
+    }
+
+    private void loadMembers() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(MEMBERS_FILE));
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue;
+            String[] p = line.split("\\|");
+            // p[0]=memberID, p[1]=name, p[2]=email, p[3]=phone (đúng thứ tự constructor)
+            memberList.add(new Member(p[0], p[1], p[2], p[3]));
+        }
+        br.close();
+    }
+
+    private void loadBorrowings() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(BORROWINGS_FILE));
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue;
+            String[] p = line.split("\\|");
+            LocalDate borrowDate = LocalDate.parse(p[2], FMT);
+            // Nếu cột là "null" thì returnDate = null (chưa trả), ngược lại parse ngày.
+            LocalDate returnDate = p[3].equals("null") ? null : LocalDate.parse(p[3], FMT);
+            boolean returned = Boolean.parseBoolean(p[4]); // "true"/"false" -> boolean
+            borrowList.add(new Borrowing(p[0], p[1], borrowDate, returnDate, returned));
+        }
+        br.close();
+    }
+
 }
