@@ -6,7 +6,7 @@ public class book {
 
     // Scanner dùng chung cho toàn bộ chương trình (tránh tạo nhiều Scanner
     // trên cùng System.in gây tranh buffer -> mất dòng / NoSuchElementException)
-    public static final Scanner SC = new Scanner(System.in);
+    public static final Scanner sc = new Scanner(System.in);
 
     //property
     private String bookID;         // id sách
@@ -75,19 +75,19 @@ public class book {
     // input infor
     public void inputInfor(){
         System.out.print("Input Book ID: ");
-        bookID = SC.nextLine();
+        bookID = sc.nextLine();
 
         System.out.print("Input book name: ");
-        nameBook  = SC.nextLine();
+        nameBook  = sc.nextLine();
 
         System.out.print("Input author: ");
-        author = SC.nextLine();
+        author = sc.nextLine();
 
         System.out.print("Input publication year: ");
-        publicationYear = SC.nextLine();
+        publicationYear = sc.nextLine();
 
         System.out.print("Input quantity: ");
-        quantity = Integer.parseInt(SC.nextLine());
+        quantity = Integer.parseInt(sc.nextLine());
     }
     
     // Thông tin riêng của từng loại sách (lớp con sẽ override để thể hiện đa hình)

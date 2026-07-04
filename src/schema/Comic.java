@@ -31,7 +31,7 @@ public class Comic extends book {
     public void inputInfor() {
         super.inputInfor();
         System.out.print("Enter issue number: ");
-        this.issueNumber = Integer.parseInt(SC.nextLine());
+        this.issueNumber = Integer.parseInt(sc.nextLine());
     }
 
     // override để hiển thị thông tin riêng (đa hình)

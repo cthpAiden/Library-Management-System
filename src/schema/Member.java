@@ -54,16 +54,16 @@ public class Member {
     //inputInfor
     public void inputInfor(){
         System.out.print("ID Member: ");
-        memberID = book.SC.nextLine();
+        memberID = book.sc.nextLine();
 
         System.out.print("Member name: ");
-        nameMember = book.SC.nextLine();
+        nameMember = book.sc.nextLine();
 
         System.out.print("Phone number: ");
-        phoneNumber = book.SC.nextLine();
+        phoneNumber = book.sc.nextLine();
 
         System.out.print("Email: ");
-        email = book.SC.nextLine();
+        email = book.sc.nextLine();
     }
 
     //showInfor
