@@ -39,4 +39,10 @@ public class Novel extends book {
     public String getThongTinChiTiet() {
         return "Novel | Genre: " + genre;
     }
+
+    // dòng ghi file: NOVEL|bookID|nameBook|author|publicationYear|quantity|genre
+    @Override
+    public String toString() {
+        return "NOVEL|" + super.toString() + "|" + genre;
+    }
 }

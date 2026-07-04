@@ -99,4 +99,11 @@ public class Borrowing {
                 this.bookID, this.memberID, this.borrowDate.format(FMT),
                 this.getDueDate().format(FMT), status);
     }
+
+    // dòng ghi file: memberID|bookID|borrowDate|returnDate(hoặc "null")|returned
+    @Override
+    public String toString() {
+        String ret = returnDate == null ? "null" : returnDate.format(FMT);
+        return memberID + "|" + bookID + "|" + borrowDate.format(FMT) + "|" + ret + "|" + returned;
+    }
 }

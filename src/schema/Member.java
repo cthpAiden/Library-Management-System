@@ -74,7 +74,13 @@ public class Member {
 
     public void showInfor() {
         // ĐÃ SỬA: Bổ sung lệnh System.out.printf trực tiếp để hiển thị dữ liệu lên màn hình console
-        System.out.printf("|%-10s|%-25s|%-15s|%-25s|%n", 
+        System.out.printf("|%-10s|%-25s|%-15s|%-25s|%n",
                 this.memberID, this.nameMember, this.phoneNumber, this.email);
+    }
+
+    // dòng ghi file: memberID|nameMember|email|phoneNumber
+    @Override
+    public String toString() {
+        return memberID + "|" + nameMember + "|" + email + "|" + phoneNumber;
     }
 }

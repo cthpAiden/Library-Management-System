@@ -39,4 +39,10 @@ public class Others extends book {
     public String getThongTinChiTiet() {
         return "Others | Note: " + note;
     }
+
+    // dòng ghi file: OTHERS|bookID|nameBook|author|publicationYear|quantity|note
+    @Override
+    public String toString() {
+        return "OTHERS|" + super.toString() + "|" + note;
+    }
 }

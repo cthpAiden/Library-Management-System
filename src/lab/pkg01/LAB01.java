@@ -1,16 +1,10 @@
 package lab.pkg01;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import schema.Borrowing;
 import schema.Comic;
@@ -19,13 +13,21 @@ import schema.Novel;
 import schema.Others;
 import schema.Textbook;
 import schema.book;
+import utils.BookFileHelper;
+import utils.BorrowingFileHelper;
+import utils.MemberFileHelper;
 
 public class LAB01 {
-    private List<book> bookList = new ArrayList<>();
-    private List<Member> memberList = new ArrayList<>();
-    private List<Borrowing> borrowList = new ArrayList<>();
+    private ArrayList<book> bookList = new ArrayList<>();
+    private ArrayList<Member> memberList = new ArrayList<>();
+    private ArrayList<Borrowing> borrowList = new ArrayList<>();
     // Dùng chung 1 Scanner với các lớp entity (book.sc) để tránh tranh buffer System.in
     private Scanner sc = book.sc;
+
+    // FileHelper: mỗi helper gắn liền với 1 list, load/save đi thẳng vào list đó
+    private final BookFileHelper bookFileHelper = new BookFileHelper(bookList);
+    private final MemberFileHelper memberFileHelper = new MemberFileHelper(memberList);
+    private final BorrowingFileHelper borrowingFileHelper = new BorrowingFileHelper(borrowList);
     
     // Định dạng ngày dùng chung cho LAB01
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -774,147 +776,29 @@ public class LAB01 {
 
     public void saveData() {
         new File(DATA_DIR).mkdirs();
-        try {
-            saveBooks();
-            saveMembers();
-            saveBorrowings();
+        boolean ok = bookFileHelper.saveFromFile(BOOKS_FILE)
+                & memberFileHelper.saveFromFile(MEMBERS_FILE)
+                & borrowingFileHelper.saveFromFile(BORROWINGS_FILE);
+        if (ok) {
             System.out.println("Data saved to '" + DATA_DIR + "/' successfully!");
-        } catch (IOException e) {
-            System.out.println("Could not save data: " + e.getMessage());
+        } else {
+            System.out.println("Could not save data.");
         }
-    }
-
-    private void saveBooks() throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter(BOOKS_FILE));
-        for (book bk : bookList) {
-            String common = bk.getBookID() + "|" + bk.getNameBook() + "|"
-                    + bk.getAuthor() + "|" + bk.getPublicationYear() + "|"
-                    + bk.getQuantity();
-
-            if (bk instanceof Novel) {
-                Novel n = (Novel) bk;
-                pw.println("NOVEL|" + common + "|" + n.getGenre());
-            } else if (bk instanceof Comic) {
-                Comic c = (Comic) bk;
-                pw.println("COMIC|" + common + "|" + c.getIssueNumber());
-            } else if (bk instanceof Textbook) {
-                Textbook t = (Textbook) bk;
-                pw.println("TEXTBOOK|" + common + "|" + t.getSubject());
-            } else if (bk instanceof Others) {
-                Others o = (Others) bk;
-                pw.println("OTHERS|" + common + "|" + o.getNote());
-            }
-        }
-        pw.close();
-    }
-
-    private void saveMembers() throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter(MEMBERS_FILE));
-        for (Member mb : memberList) {
-            pw.println(mb.getMemberID() + "|" + mb.getNameMember() + "|"
-                    + mb.getEmail() + "|" + mb.getPhoneNumber());
-        }
-        pw.close();
-    }
-
-    private void saveBorrowings() throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter(BORROWINGS_FILE));
-        for (Borrowing br : borrowList) {
-            String borrow = br.getBorrowDate().format(FMT);
-
-            String ret;
-            if (br.getReturnDate() == null) {
-                ret = "null";
-            } else {
-                ret = br.getReturnDate().format(FMT);
-            }
-
-            pw.println(br.getMemberID() + "|" + br.getBookID() + "|"
-                    + borrow + "|" + ret + "|" + br.isReturned());
-        }
-        pw.close();
     }
 
     public void loadData() {
         bookList.clear();
         memberList.clear();
         borrowList.clear();
-        try {
-            loadBooks();
-            loadMembers();
-            loadBorrowings();
+        boolean ok = bookFileHelper.loadFromFile(BOOKS_FILE)
+                & memberFileHelper.loadFromFile(MEMBERS_FILE)
+                & borrowingFileHelper.loadFromFile(BORROWINGS_FILE);
+        if (ok) {
             System.out.println("Data loaded: " + bookList.size() + " books, "
                     + memberList.size() + " members, " + borrowList.size() + " borrowings.");
-        } catch (IOException e) {
-            System.out.println("Could not load data: " + e.getMessage());
+        } else {
+            System.out.println("Could not load data.");
         }
-    }
-
-    private void loadBooks() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(BOOKS_FILE));
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.trim().isEmpty()) continue;
-
-            String[] p = line.split("\\|");
-            String type = p[0];
-            String bookID = p[1];
-            String name = p[2];
-            String author = p[3];
-            String year = p[4];
-            int quantity = Integer.parseInt(p[5]);
-
-            switch (type) {
-                case "NOVEL":
-                    bookList.add(new Novel(bookID, name, author, year, quantity, p[6]));
-                    break;
-                case "COMIC":
-                    bookList.add(new Comic(bookID, name, author, year, quantity, Integer.parseInt(p[6])));
-                    break;
-                case "TEXTBOOK":
-                    bookList.add(new Textbook(bookID, name, author, year, quantity, p[6]));
-                    break;
-                case "OTHERS":
-                    bookList.add(new Others(bookID, name, author, year, quantity, p[6]));
-                    break;
-                default:
-                    System.out.println("Unknown book type skipped: " + type);
-            }
-        }
-        br.close();
-    }
-
-    private void loadMembers() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(MEMBERS_FILE));
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.trim().isEmpty()) continue;
-            String[] p = line.split("\\|");
-            memberList.add(new Member(p[0], p[1], p[2], p[3]));
-        }
-        br.close();
-    }
-
-    private void loadBorrowings() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(BORROWINGS_FILE));
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.trim().isEmpty()) continue;
-            String[] p = line.split("\\|");
-
-            LocalDate borrowDate = LocalDate.parse(p[2], FMT);
-
-            LocalDate returnDate;
-            if (p[3].equals("null")) {
-                returnDate = null;
-            } else {
-                returnDate = LocalDate.parse(p[3], FMT);
-            }
-
-            boolean returned = Boolean.parseBoolean(p[4]);
-            borrowList.add(new Borrowing(p[0], p[1], borrowDate, returnDate, returned));
-        }
-        br.close();
     }
 
 }

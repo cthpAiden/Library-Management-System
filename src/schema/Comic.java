@@ -39,4 +39,10 @@ public class Comic extends book {
     public String getThongTinChiTiet() {
         return "Comic | Issue No.: " + issueNumber;
     }
+
+    // dòng ghi file: COMIC|bookID|nameBook|author|publicationYear|quantity|issueNumber
+    @Override
+    public String toString() {
+        return "COMIC|" + super.toString() + "|" + issueNumber;
+    }
 }

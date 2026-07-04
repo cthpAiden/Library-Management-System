@@ -107,9 +107,10 @@ public class book {
                 this.getThongTinChiTiet());
     }
 
+    // Dùng bởi FileHelper.saveFromFile: phần chung của dòng ghi file, mỗi lớp con
+    // sẽ thêm tiền tố loại sách + trường riêng khi override toString().
     @Override
     public String toString() {
-        return String.format("[%s] %s - %s (%s) | %s",
-                bookID, nameBook, author, publicationYear, getThongTinChiTiet());
+        return bookID + "|" + nameBook + "|" + author + "|" + publicationYear + "|" + quantity;
     }
 }

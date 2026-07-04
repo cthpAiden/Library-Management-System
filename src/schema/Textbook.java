@@ -39,4 +39,10 @@ public class Textbook extends book {
     public String getThongTinChiTiet() {
         return "Textbook | Subject: " + subject;
     }
+
+    // dòng ghi file: TEXTBOOK|bookID|nameBook|author|publicationYear|quantity|subject
+    @Override
+    public String toString() {
+        return "TEXTBOOK|" + super.toString() + "|" + subject;
+    }
 }
