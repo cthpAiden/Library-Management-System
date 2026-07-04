@@ -3,7 +3,11 @@ package schema;
 import java.util.Scanner;
 
 public class book {
-    
+
+    // Scanner dùng chung cho toàn bộ chương trình (tránh tạo nhiều Scanner
+    // trên cùng System.in gây tranh buffer -> mất dòng / NoSuchElementException)
+    public static final Scanner SC = new Scanner(System.in);
+
     //property
     private String bookID;         // id sách
     private String nameBook;        // tên sách
@@ -70,23 +74,20 @@ public class book {
 
     // input infor
     public void inputInfor(){
-        Scanner sc = new Scanner(System.in);
-        
         System.out.print("Input Book ID: ");
-        bookID = sc.nextLine();
+        bookID = SC.nextLine();
 
         System.out.print("Input book name: ");
-        nameBook  = sc.nextLine();
+        nameBook  = SC.nextLine();
 
         System.out.print("Input author: ");
-        author = sc.nextLine();
+        author = SC.nextLine();
 
         System.out.print("Input publication year: ");
-        publicationYear = sc.nextLine();
+        publicationYear = SC.nextLine();
 
         System.out.print("Input quantity: ");
-        quantity = sc.nextInt();
-        sc.nextLine(); // Sửa lỗi trôi dòng sau khi nhập số int
+        quantity = Integer.parseInt(SC.nextLine());
     }
     
     // Thông tin riêng của từng loại sách (lớp con sẽ override để thể hiện đa hình)

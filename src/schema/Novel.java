@@ -1,7 +1,5 @@
 package schema;
 
-import java.util.Scanner;
-
 // Lớp con Novel kế thừa từ lớp cha book
 public class Novel extends book {
 
@@ -32,9 +30,8 @@ public class Novel extends book {
     @Override
     public void inputInfor() {
         super.inputInfor();
-        Scanner sc = new Scanner(System.in);
         System.out.print("Enter genre (e.g. Fantasy, Romance): ");
-        this.genre = sc.nextLine();
+        this.genre = SC.nextLine();
     }
 
     // override để hiển thị thông tin riêng (đa hình)

@@ -1,7 +1,5 @@
 package schema;
 
-import java.util.Scanner;
-
 // Lớp con Others kế thừa từ lớp cha book
 public class Others extends book {
 
@@ -32,9 +30,8 @@ public class Others extends book {
     @Override
     public void inputInfor() {
         super.inputInfor();
-        Scanner sc = new Scanner(System.in);
         System.out.print("Enter note: ");
-        this.note = sc.nextLine();
+        this.note = SC.nextLine();
     }
 
     // override để hiển thị thông tin riêng (đa hình)

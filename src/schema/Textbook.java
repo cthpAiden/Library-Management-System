@@ -1,7 +1,5 @@
 package schema;
 
-import java.util.Scanner;
-
 // Lớp con Textbook kế thừa từ lớp cha book
 public class Textbook extends book {
 
@@ -32,9 +30,8 @@ public class Textbook extends book {
     @Override
     public void inputInfor() {
         super.inputInfor();
-        Scanner sc = new Scanner(System.in);
         System.out.print("Enter subject (e.g. Math, Physics): ");
-        this.subject = sc.nextLine();
+        this.subject = SC.nextLine();
     }
 
     // override để hiển thị thông tin riêng (đa hình)

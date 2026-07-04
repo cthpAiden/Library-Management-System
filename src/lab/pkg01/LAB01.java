@@ -24,7 +24,8 @@ public class LAB01 {
     private List<book> bookList = new ArrayList<>();
     private List<Member> memberList = new ArrayList<>();
     private List<Borrowing> borrowList = new ArrayList<>();
-    private Scanner sc = new Scanner(System.in);
+    // Dùng chung 1 Scanner với các lớp entity (book.SC) để tránh tranh buffer System.in
+    private Scanner sc = book.SC;
     
     // Định dạng ngày dùng chung cho LAB01
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");

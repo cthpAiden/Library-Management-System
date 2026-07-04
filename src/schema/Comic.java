@@ -1,7 +1,5 @@
 package schema;
 
-import java.util.Scanner;
-
 // Lớp con Comic kế thừa từ lớp cha book
 public class Comic extends book {
 
@@ -32,9 +30,8 @@ public class Comic extends book {
     @Override
     public void inputInfor() {
         super.inputInfor();
-        Scanner sc = new Scanner(System.in);
         System.out.print("Enter issue number: ");
-        this.issueNumber = Integer.parseInt(sc.nextLine());
+        this.issueNumber = Integer.parseInt(SC.nextLine());
     }
 
     // override để hiển thị thông tin riêng (đa hình)

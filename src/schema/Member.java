@@ -1,7 +1,5 @@
 package schema;
 
-import java.util.Scanner;
-
 public class Member {
     private String memberID;
     private String nameMember;
@@ -55,19 +53,17 @@ public class Member {
 
     //inputInfor
     public void inputInfor(){
-        Scanner sc = new Scanner(System.in);
-         
         System.out.print("ID Member: ");
-        memberID = sc.nextLine();
- 
+        memberID = book.SC.nextLine();
+
         System.out.print("Member name: ");
-        nameMember = sc.nextLine();
+        nameMember = book.SC.nextLine();
 
         System.out.print("Phone number: ");
-        phoneNumber = sc.nextLine();
-        
-        System.out.print("Email: "); 
-        email = sc.nextLine();
+        phoneNumber = book.SC.nextLine();
+
+        System.out.print("Email: ");
+        email = book.SC.nextLine();
     }
 
     //showInfor
