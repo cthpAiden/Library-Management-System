@@ -128,10 +128,9 @@ public class LAB01 {
             System.out.println("================================");
             System.out.println("1. Add book");
             System.out.println("2. Display all books");
-            System.out.println("3. Find books by ID");
-            System.out.println("4. Search books (name / author)");
-            System.out.println("5. Remove book");
-            System.out.println("6. Return");
+            System.out.println("3. Search books (ID / name / author)");
+            System.out.println("4. Remove book");
+            System.out.println("5. Return");
             System.out.println("================================");
             System.out.print("Select your choice: ");
             choice = nhapSoNguyen();
@@ -146,24 +145,18 @@ public class LAB01 {
                     break;
                 }
                 case 3: {
-                    System.out.print("Input Book ID (find by ID): ");
-                    String ID = sc.nextLine();
-                    findBook(ID);
-                    break;
-                }
-                case 4: {
-                    System.out.print("Search book (name / author): ");
+                    System.out.print("Search book (ID / name / author): ");
                     String keyword = sc.nextLine();
                     searchBook(keyword);
                     break;
                 }
-                case 5: {
+                case 4: {
                     System.out.print("Input Book ID (remove by ID): ");
                     String id = sc.nextLine();
                     deletedBook(id);
                     break;
                 }
-                case 6: {
+                case 5: {
                     System.out.println("Returning to main menu...");
                     break;
                 }
@@ -171,7 +164,7 @@ public class LAB01 {
                     System.out.println("Invalid choice, please input again!");
                 }
             }
-        } while (choice != 6);
+        } while (choice != 5);
     }
     
     public int nhapSoNguyen() {
@@ -225,29 +218,18 @@ public class LAB01 {
         }
     }
  
-    public boolean findBook(String bookID) {
-        for (book bk : bookList) {
-            if (bk.getBookID().equalsIgnoreCase(bookID)) {
-                book.showHeader();
-                bk.showInfor();
-                return true;
-            }
-        }
-        System.out.println("Unable to find book with the following ID: " + bookID);
-        return false;
-    }
-
-    // Search books by keyword: partial match on name or author
+    // Search books by keyword: partial match on ID, name or author
     public void searchBook(String keyword) {
         String key = keyword.toLowerCase().trim();
         boolean found = false;
         boolean headerShown = false;
 
         for (book bk : bookList) {
+            boolean matchID = bk.getBookID().toLowerCase().contains(key);
             boolean matchName = bk.getNameBook().toLowerCase().contains(key);
             boolean matchAuthor = bk.getAuthor().toLowerCase().contains(key);
 
-            if (matchName || matchAuthor) {
+            if (matchID || matchName || matchAuthor) {
                 if (!headerShown) {
                     book.showHeader();
                     headerShown = true;
