@@ -37,6 +37,11 @@ public class FileManager {
     }
 
     public void loadData(ArrayList<book> bookList, ArrayList<Member> memberList, ArrayList<Borrowing> borrowList) {
+        // Chưa có đủ file lưu -> giữ nguyên dữ liệu hiện tại, không xoá trắng list.
+        if (!hasSavedData()) {
+            System.out.println("No saved data found. Keeping current data.");
+            return;
+        }
         bookList.clear(); memberList.clear(); borrowList.clear();
         boolean ok = bookFileHelper.loadFromFile(BOOKS_FILE)
                 & memberFileHelper.loadFromFile(MEMBERS_FILE)

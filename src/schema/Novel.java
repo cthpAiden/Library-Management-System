@@ -30,8 +30,7 @@ public class Novel extends book {
     @Override
     public void inputInfor() {
         super.inputInfor();
-        System.out.print("Enter genre (e.g. Fantasy, Romance): ");
-        this.genre = sc.nextLine();
+        this.genre = readText("Enter genre (e.g. Fantasy, Romance): ");
     }
 
     // override để hiển thị thông tin riêng (đa hình)

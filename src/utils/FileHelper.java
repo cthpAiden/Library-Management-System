@@ -28,9 +28,14 @@ public  abstract class FileHelper<T>{
             while(line != null){
                 //biến line thành object tương ứng cần lưu
                 if (!line.trim().isEmpty()) {   // bỏ qua dòng trống
-                    T t = handleLine(line);
-                    if (t != null) {            // bỏ qua dòng không hợp lệ (handleLine trả null)
-                        dataList.add(t);
+                    // Bọc riêng từng dòng: 1 dòng lỗi chỉ bị bỏ qua, không làm hỏng cả file.
+                    try {
+                        T t = handleLine(line);
+                        if (t != null) {        // bỏ qua dòng không hợp lệ (handleLine trả null)
+                            dataList.add(t);
+                        }
+                    } catch (Exception ex) {
+                        System.out.println("Skipping bad line: " + line);
                     }
                 }
                 line =reader.readLine();
@@ -50,12 +55,15 @@ public  abstract class FileHelper<T>{
     public boolean saveFromFile(String url){
         File f = new File(url);
         try {
+            // Dựng toàn bộ nội dung trước, chỉ mở file để ghi 1 lần. Nếu toString() có
+            // lỗi thì file cũ chưa bị xoá trắng (FileOutputStream cắt file ngay khi mở).
+            StringBuilder sb = new StringBuilder();
+            for (T t : dataList) {
+                sb.append(t.toString()).append("\n");
+            }
             FileOutputStream fos = new FileOutputStream(f);
             OutputStreamWriter writer = new OutputStreamWriter(fos);
-            for (T t : dataList) {
-                writer.write(t.toString());
-                writer.write("\n");
-            }
+            writer.write(sb.toString());
             writer.close();//đóng fike lại
             return true;//return
 

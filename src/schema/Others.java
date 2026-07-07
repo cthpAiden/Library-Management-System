@@ -30,8 +30,7 @@ public class Others extends book {
     @Override
     public void inputInfor() {
         super.inputInfor();
-        System.out.print("Enter note: ");
-        this.note = sc.nextLine();
+        this.note = readText("Enter note: ");
     }
 
     // override để hiển thị thông tin riêng (đa hình)

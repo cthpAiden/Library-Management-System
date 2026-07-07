@@ -53,17 +53,10 @@ public class Member {
 
     //inputInfor
     public void inputInfor(){
-        System.out.print("ID Member: ");
-        memberID = book.sc.nextLine();
-
-        System.out.print("Member name: ");
-        nameMember = book.sc.nextLine();
-
-        System.out.print("Phone number: ");
-        phoneNumber = book.sc.nextLine();
-
-        System.out.print("Email: ");
-        email = book.sc.nextLine();
+        memberID = book.readText("ID Member: ");
+        nameMember = book.readText("Member name: ");
+        phoneNumber = book.readText("Phone number: ");
+        email = book.readText("Email: ");
     }
 
     //showInfor

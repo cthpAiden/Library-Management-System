@@ -30,8 +30,7 @@ public class Textbook extends book {
     @Override
     public void inputInfor() {
         super.inputInfor();
-        System.out.print("Enter subject (e.g. Math, Physics): ");
-        this.subject = sc.nextLine();
+        this.subject = readText("Enter subject (e.g. Math, Physics): ");
     }
 
     // override để hiển thị thông tin riêng (đa hình)
