@@ -17,4 +17,12 @@ public class InputHelper {
             }
         }
     }
+
+    public static String readLine(Scanner sc) {
+        if (!sc.hasNextLine()) {
+            System.out.println("\nNo more input. Exiting.");
+            System.exit(0);
+        }
+        return sc.nextLine();
+    }
 }

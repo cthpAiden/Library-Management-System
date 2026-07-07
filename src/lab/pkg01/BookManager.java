@@ -33,11 +33,11 @@ public class BookManager {
                 case 2: showAllBooks(); break;
                 case 3:
                     System.out.print("Input title / author / genre keyword: ");
-                    searchBooks(sc.nextLine());
+                    searchBooks(InputHelper.readLine(sc));
                     break;
                 case 4:
                     System.out.print("Input Book ID: ");
-                    deleteBook(sc.nextLine());
+                    deleteBook(InputHelper.readLine(sc).trim());
                     break;
                 case 5: System.out.println("Returning to main menu..."); break;
                 default: System.out.println("Invalid choice!");

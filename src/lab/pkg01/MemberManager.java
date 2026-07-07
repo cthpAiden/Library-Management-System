@@ -32,13 +32,13 @@ public class MemberManager {
                 case 2: showAllMembers(); break;
                 case 3:
                     System.out.print("Input Member ID: ");
-                    Member mb = findMemberByID(sc.nextLine());
+                    Member mb = findMemberByID(InputHelper.readLine(sc).trim());
                     if (mb != null) { Member.showHeader(); mb.showInfor(); }
                     else System.out.println("Member not found!");
                     break;
                 case 4:
                     System.out.print("Input Member ID: ");
-                    deleteMember(sc.nextLine());
+                    deleteMember(InputHelper.readLine(sc).trim());
                     break;
                 case 5: System.out.println("Returning to main menu..."); break;
                 default: System.out.println("Invalid choice!");
