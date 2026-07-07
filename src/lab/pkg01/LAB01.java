@@ -23,6 +23,7 @@ public class LAB01 {
         } else {
             seedData();
         }
+        Runtime.getRuntime().addShutdownHook(new Thread(fileManager::saveData));
     }
 
     public void showMenu() {
@@ -48,8 +49,7 @@ public class LAB01 {
                 case 5: fileManager.saveData(); break;
                 case 6: fileManager.loadData(bookList, memberList, borrowList); break;
                 case 7:
-                    fileManager.saveData();
-                    System.out.println("Exiting program... Goodbye!");
+                    System.out.println("Exiting program... Goodbye! (data is saved automatically)");
                     break;
                 default: System.out.println("Invalid choice!");
             }
