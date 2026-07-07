@@ -15,4 +15,9 @@ public class MemberFileHelper extends FileHelper<Member> {
         String[] p = line.split("\\|", -1); // -1: giữ lại field cuối rỗng
         return new Member(p[0], p[1], p[2], p[3]);
     }
+
+    @Override
+    protected String keyOf(Member m) {
+        return m.getMemberID();
+    }
 }

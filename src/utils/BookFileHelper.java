@@ -38,4 +38,9 @@ public class BookFileHelper extends FileHelper<book> {
                 return null;
         }
     }
+
+    @Override
+    protected String keyOf(book b) {
+        return b.getBookID();
+    }
 }

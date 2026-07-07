@@ -34,7 +34,12 @@ public  abstract class FileHelper<T>{
                     try {
                         T t = handleLine(line);
                         if (t != null) {        // bỏ qua dòng không hợp lệ (handleLine trả null)
-                            dataList.add(t);
+                            String key = keyOf(t);
+                            if (key != null && containsKey(key)) {
+                                System.out.println("Skipping duplicate record: " + key);
+                            } else {
+                                dataList.add(t);
+                            }
                         }
                     } catch (Exception ex) {
                         System.out.println("Skipping bad line: " + line);
@@ -53,6 +58,17 @@ public  abstract class FileHelper<T>{
 
     }
     public abstract T handleLine(String line);
+
+    protected String keyOf(T t) {
+        return null;
+    }
+
+    private boolean containsKey(String key) {
+        for (T t : dataList) {
+            if (key.equalsIgnoreCase(keyOf(t))) return true;
+        }
+        return false;
+    }
 
     public boolean saveFromFile(String url){
         File f = new File(url);
