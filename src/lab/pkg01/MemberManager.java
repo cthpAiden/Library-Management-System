@@ -80,6 +80,12 @@ public class MemberManager {
         for (int i = 0; i < memberList.size(); i++) {
             if (memberList.get(i).getMemberID().equalsIgnoreCase(memberID)) {
                 memberList.remove(i);
+                // Xóa luôn lịch sử mượn của thành viên này để không còn record mồ côi
+                for (int j = borrowList.size() - 1; j >= 0; j--) {
+                    if (borrowList.get(j).getMemberID().equalsIgnoreCase(memberID)) {
+                        borrowList.remove(j);
+                    }
+                }
                 System.out.println("Successfully removed!");
                 return;
             }

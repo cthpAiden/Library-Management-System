@@ -3,6 +3,7 @@ package lab.pkg01;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Scanner;
 import schema.*;
@@ -12,7 +13,10 @@ public class BorrowManager {
     private final BookManager bookManager;
     private final MemberManager memberManager;
     private final Scanner sc = book.sc;
-    private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    // "d/M/uuuu" chấp nhận cả 5/6/2026 lẫn 05/06/2026.
+    // STRICT để từ chối ngày không tồn tại (vd 31/02/2026) thay vì tự đổi thành 28/02.
+    private static final DateTimeFormatter FMT =
+            DateTimeFormatter.ofPattern("d/M/uuuu").withResolverStyle(ResolverStyle.STRICT);
 
     public BorrowManager(ArrayList<Borrowing> borrowList, BookManager bookManager, MemberManager memberManager) {
         this.borrowList = borrowList;
@@ -109,6 +113,10 @@ public class BorrowManager {
         System.out.print("Return Date (DD/MM/YYYY): ");
         LocalDate returnDate = readDate();
         if (returnDate == null) return;
+        if (returnDate.isBefore(record.getBorrowDate())) {
+            System.out.println("Return date cannot be before borrow date!");
+            return;
+        }
 
         if (!confirm()) { System.out.println("Operation cancelled."); return; }
 

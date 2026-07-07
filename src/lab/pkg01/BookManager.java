@@ -122,6 +122,12 @@ public class BookManager {
         for (int i = 0; i < bookList.size(); i++) {
             if (bookList.get(i).getBookID().equalsIgnoreCase(bookID)) {
                 bookList.remove(i);
+                // Xóa luôn lịch sử mượn của sách này để không còn record mồ côi
+                for (int j = borrowList.size() - 1; j >= 0; j--) {
+                    if (borrowList.get(j).getBookID().equalsIgnoreCase(bookID)) {
+                        borrowList.remove(j);
+                    }
+                }
                 System.out.println("Successfully removed!");
                 return;
             }
