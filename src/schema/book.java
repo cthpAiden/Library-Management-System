@@ -101,12 +101,28 @@ public class book {
         }
     }
 
+    protected static String readRequiredText(String prompt) {
+        while (true) {
+            String s = readText(prompt).trim();
+            if (!s.isEmpty()) return s;
+            System.out.println("This field cannot be empty.");
+        }
+    }
+
+    protected static String readYear(String prompt) {
+        while (true) {
+            int y = readInt(prompt);
+            if (y >= 1 && y <= 2100) return String.valueOf(y);
+            System.out.println("Year must be between 1 and 2100.");
+        }
+    }
+
     // input infor
     public void inputInfor(){
-        bookID = readText("Input Book ID: ");
-        nameBook = readText("Input book name: ");
-        author = readText("Input author: ");
-        publicationYear = readText("Input publication year: ");
+        bookID = readRequiredText("Input Book ID: ");
+        nameBook = readRequiredText("Input book name: ");
+        author = readRequiredText("Input author: ");
+        publicationYear = readYear("Input publication year: ");
         quantity = readInt("Input quantity: ");
     }
     

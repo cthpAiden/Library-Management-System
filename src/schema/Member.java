@@ -53,8 +53,8 @@ public class Member {
 
     //inputInfor
     public void inputInfor(){
-        memberID = book.readText("ID Member: ");
-        nameMember = book.readText("Member name: ");
+        memberID = book.readRequiredText("ID Member: ");
+        nameMember = book.readRequiredText("Member name: ");
         phoneNumber = book.readText("Phone number: ");
         email = book.readText("Email: ");
     }
