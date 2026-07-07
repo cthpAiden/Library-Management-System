@@ -2,9 +2,11 @@ package utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public  abstract class FileHelper<T>{
@@ -22,7 +24,7 @@ public  abstract class FileHelper<T>{
         // có khả năng file tào lao=> dùng try-catch
 
         try {
-            FileReader fr = new FileReader(f);// đọc file
+            InputStreamReader fr = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);// đọc file
             BufferedReader reader = new BufferedReader(fr);//đọc từng dong
             String line = reader.readLine();
             while(line != null){
@@ -62,7 +64,7 @@ public  abstract class FileHelper<T>{
                 sb.append(t.toString()).append("\n");
             }
             FileOutputStream fos = new FileOutputStream(f);
-            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            OutputStreamWriter writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             writer.write(sb.toString());
             writer.close();//đóng fike lại
             return true;//return

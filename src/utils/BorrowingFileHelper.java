@@ -2,11 +2,13 @@ package utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import schema.Borrowing;
 
 public class BorrowingFileHelper extends FileHelper<Borrowing> {
-    private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter FMT =
+            DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT);
 
     public BorrowingFileHelper(ArrayList<Borrowing> dataList) {
         super(dataList);
