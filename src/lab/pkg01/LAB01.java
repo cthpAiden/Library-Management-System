@@ -47,7 +47,15 @@ public class LAB01 {
                 case 3: borrowManager.showMenu(); break;
                 case 4: reportService.showMenu(); break;
                 case 5: fileManager.saveData(); break;
-                case 6: fileManager.loadData(bookList, memberList, borrowList); break;
+                case 6:
+                    System.out.println("Reloading will discard unsaved changes.");
+                    System.out.println("[1] Confirm  [2] Cancel");
+                    if (InputHelper.readInt(sc) == 1) {
+                        fileManager.loadData(bookList, memberList, borrowList);
+                    } else {
+                        System.out.println("Operation cancelled.");
+                    }
+                    break;
                 case 7:
                     System.out.println("Exiting program... Goodbye! (data is saved automatically)");
                     break;
