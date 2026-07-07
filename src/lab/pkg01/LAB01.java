@@ -57,8 +57,9 @@ public class LAB01 {
     }
 
     private void seedData() {
+        // B02 để quantity 3 vì có 2 bản đang được mượn (đủ để 2 người mượn cùng lúc)
         bookList.add(new Novel("B01", "Truyen Kieu", "Nguyen Du", "1820", 4, "Romance"));
-        bookList.add(new Textbook("B02", "Mathematics 9", "Phan Duc Chinh", "2005", 1, "Mathematics"));
+        bookList.add(new Textbook("B02", "Mathematics 9", "Phan Duc Chinh", "2005", 3, "Mathematics"));
         bookList.add(new Comic("B03", "Tham Tu Conan", "Gosho Aoyama", "1994", 9, 42));
         bookList.add(new Others("B04", "Tu Dien Tieng Viet", "Hoang Phe", "2018", 4, "Dictionary"));
 
@@ -69,5 +70,13 @@ public class LAB01 {
         borrowList.add(new Borrowing("M01", "B01", LocalDate.now(), null, false));
         borrowList.add(new Borrowing("M01", "B02", LocalDate.now(), null, false));
         borrowList.add(new Borrowing("M02", "B02", LocalDate.now().minusDays(30), null, false));
+
+        // Trừ số lượng sách đang được mượn để tồn kho khớp với thực tế (giống borrowBook)
+        for (Borrowing br : borrowList) {
+            if (!br.isReturned()) {
+                book bk = bookManager.findBookByID(br.getBookID());
+                if (bk != null) bk.setQuantity(bk.getQuantity() - 1);
+            }
+        }
     }
 }

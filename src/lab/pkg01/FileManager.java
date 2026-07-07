@@ -22,7 +22,10 @@ public class FileManager {
     }
 
     public boolean hasSavedData() {
-        return new File(BOOKS_FILE).exists();
+        // Chỉ coi là có dữ liệu khi cả 3 file đều tồn tại (tránh load nửa vời)
+        return new File(BOOKS_FILE).exists()
+                && new File(MEMBERS_FILE).exists()
+                && new File(BORROWINGS_FILE).exists();
     }
 
     public void saveData() {

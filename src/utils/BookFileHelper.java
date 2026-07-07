@@ -16,7 +16,7 @@ public class BookFileHelper extends FileHelper<book> {
     // line format: TYPE|bookID|nameBook|author|publicationYear|quantity|<extra>
     @Override
     public book handleLine(String line) {
-        String[] p = line.split("\\|");
+        String[] p = line.split("\\|", -1); // -1: giữ lại field cuối rỗng (vd note trống)
         String type = p[0];
         String bookID = p[1];
         String name = p[2];

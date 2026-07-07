@@ -15,7 +15,7 @@ public class BorrowingFileHelper extends FileHelper<Borrowing> {
     // line format: memberID|bookID|borrowDate|returnDate(or "null")|returned
     @Override
     public Borrowing handleLine(String line) {
-        String[] p = line.split("\\|");
+        String[] p = line.split("\\|", -1); // -1: giữ lại field cuối rỗng
         LocalDate borrowDate = LocalDate.parse(p[2], FMT);
         LocalDate returnDate = p[3].equals("null") ? null : LocalDate.parse(p[3], FMT);
         boolean returned = Boolean.parseBoolean(p[4]);
