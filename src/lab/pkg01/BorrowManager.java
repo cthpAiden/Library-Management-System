@@ -84,6 +84,10 @@ public class BorrowManager {
         System.out.print("Borrow Date (DD/MM/YYYY): ");
         LocalDate borrowDate = readDate();
         if (borrowDate == null) return;
+        if (borrowDate.isAfter(LocalDate.now())) {
+            System.out.println("Borrow date cannot be in the future!");
+            return;
+        }
 
         if (!confirm()) { System.out.println("Operation cancelled."); return; }
 
@@ -113,6 +117,10 @@ public class BorrowManager {
         System.out.print("Return Date (DD/MM/YYYY): ");
         LocalDate returnDate = readDate();
         if (returnDate == null) return;
+        if (returnDate.isAfter(LocalDate.now())) {
+            System.out.println("Return date cannot be in the future!");
+            return;
+        }
         if (returnDate.isBefore(record.getBorrowDate())) {
             System.out.println("Return date cannot be before borrow date!");
             return;
