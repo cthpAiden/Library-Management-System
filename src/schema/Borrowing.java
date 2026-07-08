@@ -9,8 +9,8 @@ public class Borrowing {
     private String memberID;       // ID thành viên
     private String bookID;         // ID sách
     private LocalDate borrowDate;  // ngày mượn
-    private LocalDate returnDate;  // ngày trả (null nếu chưa trả)
     private boolean returned;      // đã trả chưa
+    private LocalDate returnDate;  // ngày trả (null nếu chưa trả)
     private static final int MAX_BORROW_DAYS = 7;         // số ngày được mượn tối đa
     private static final long FINE_PER_DAY   = 5000;      // phạt 5,000 VND/ngày
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");

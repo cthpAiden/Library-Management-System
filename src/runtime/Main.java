@@ -1,11 +1,11 @@
 package runtime;
 
-import lab.pkg01.LAB01;
+import library.management.LibraryManagementSystem;
 
 public class Main {
     public static void main(String[] args) {
-        LAB01 lb = new LAB01();
-        lb.showMenu();
+        LibraryManagementSystem libraryManagementSystem = new LibraryManagementSystem();
+        libraryManagementSystem.showMenu();
     }
     
 }
