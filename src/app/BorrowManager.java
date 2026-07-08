@@ -161,7 +161,7 @@ public class BorrowManager {
 
     private LocalDate readDate() {
         try { return LocalDate.parse(InputHelper.readLine().trim(), FMT); }
-        catch (DateTimeParseException e) { System.out.println("Invalid date! Format must be DD/MM/YYYY"); return null; }
+        catch (DateTimeParseException e) { System.out.println("Invalid date!"); return null; }
     }
 
     private boolean confirm() {
