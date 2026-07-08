@@ -10,6 +10,9 @@ dist/
 # NetBeans local/private settings
 nbproject/private/
 
+# Claude Code local settings
+.claude/
+
 # Non-code / documentation (excluded from this repo)
 GUIDELINES_FOR_CLAUDE/
 learning-game/
