@@ -1,14 +1,10 @@
-package schema;
+package model;
 
 public class Member {
     private String memberID;
     private String nameMember;
     private String email;
     private String phoneNumber;
-
-    // constructor
-    public Member() {
-    }
 
     public Member(String memberID, String nameMember, String email, String phoneNumber) {
         this.memberID = memberID;
@@ -17,7 +13,7 @@ public class Member {
         this.phoneNumber = phoneNumber;
     }
 
-    //getter
+    // getter
     public String getMemberID() {
         return memberID;
     }
@@ -34,7 +30,7 @@ public class Member {
         return phoneNumber;
     }
 
-    //setter
+    // setter
     public void setMemberID(String memberID) {
         this.memberID = memberID;
     }
@@ -51,22 +47,12 @@ public class Member {
         this.phoneNumber = phoneNumber;
     }
 
-    //inputInfor
-    public void inputInfor(){
-        memberID = book.readRequiredText("ID Member: ");
-        nameMember = book.readRequiredText("Member name: ");
-        phoneNumber = book.readText("Phone number: ");
-        email = book.readText("Email: ");
-    }
-
-    //showInfor
     public static void showHeader() {
         System.out.println("-----------------------------------------------------------------------------------");
         System.out.printf("|%-10s|%-25s|%-15s|%-25s|%n", "MemberID", "Name", "Phone", "Email");
     }
 
     public void showInfor() {
-        // ĐÃ SỬA: Bổ sung lệnh System.out.printf trực tiếp để hiển thị dữ liệu lên màn hình console
         System.out.printf("|%-10s|%-25s|%-15s|%-25s|%n",
                 this.memberID, this.nameMember, this.phoneNumber, this.email);
     }

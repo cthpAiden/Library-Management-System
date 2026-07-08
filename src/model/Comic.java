@@ -1,15 +1,10 @@
-package schema;
+package model;
 
-// Lớp con Comic kế thừa từ lớp cha book
-public class Comic extends book {
+// Lớp con Comic kế thừa từ lớp cha Book
+public class Comic extends Book {
 
     // Thuộc tính riêng của Comic
     private int issueNumber; // số tập / số phát hành
-
-    // constructor
-    public Comic() {
-        super();
-    }
 
     public Comic(String bookID, String nameBook,
             String author, String publicationYear, int quantity, int issueNumber) {
@@ -24,13 +19,6 @@ public class Comic extends book {
 
     public void setIssueNumber(int issueNumber) {
         this.issueNumber = issueNumber;
-    }
-
-    // override input: nhập thông tin chung rồi nhập thuộc tính riêng
-    @Override
-    public void inputInfor() {
-        super.inputInfor();
-        this.issueNumber = readInt("Enter issue number: ");
     }
 
     // override để hiển thị thông tin riêng (đa hình)

@@ -1,18 +1,16 @@
-package lab.pkg01;
+package app;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
-import schema.*;
+import model.*;
 
 public class ReportService {
-    private final ArrayList<book> bookList;
+    private final ArrayList<Book> bookList;
     private final ArrayList<Member> memberList;
     private final ArrayList<Borrowing> borrowList;
     private final BorrowManager borrowManager;
-    private final Scanner sc = book.sc;
 
-    public ReportService(ArrayList<book> bookList, ArrayList<Member> memberList, ArrayList<Borrowing> borrowList, BorrowManager borrowManager) {
+    public ReportService(ArrayList<Book> bookList, ArrayList<Member> memberList, ArrayList<Borrowing> borrowList, BorrowManager borrowManager) {
         this.bookList = bookList;
         this.memberList = memberList;
         this.borrowList = borrowList;
@@ -32,7 +30,7 @@ public class ReportService {
             System.out.println("5. General statistics");
             System.out.println("6. Return");
             System.out.print("Select your choice: ");
-            choice = InputHelper.readInt(sc);
+            choice = InputHelper.readInt();
             switch (choice) {
                 case 1: borrowManager.showBorrowingList(); break;
                 case 2: showOverdueBooks(); break;
@@ -61,14 +59,14 @@ public class ReportService {
 
     public void showPopularBooks() {
         int max = 0;
-        for (book bk : bookList) {
+        for (Book bk : bookList) {
             int count = 0;
             for (Borrowing br : borrowList) if (br.getBookID().equalsIgnoreCase(bk.getBookID())) count++;
             if (count > max) max = count;
         }
         if (max == 0) { System.out.println("No borrowing data yet!"); return; }
-        book.showHeader();
-        for (book bk : bookList) {
+        Book.showHeader();
+        for (Book bk : bookList) {
             int count = 0;
             for (Borrowing br : borrowList) if (br.getBookID().equalsIgnoreCase(bk.getBookID())) count++;
             if (count == max) { bk.showInfor(); System.out.println("Borrow Times: " + count); }

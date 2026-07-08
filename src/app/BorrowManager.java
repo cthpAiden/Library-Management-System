@@ -1,18 +1,16 @@
-package lab.pkg01;
+package app;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.ArrayList;
-import java.util.Scanner;
-import schema.*;
+import model.*;
 
 public class BorrowManager {
     private final ArrayList<Borrowing> borrowList;
     private final BookManager bookManager;
     private final MemberManager memberManager;
-    private final Scanner sc = book.sc;
     // "d/M/uuuu" chấp nhận cả 5/6/2026 lẫn 05/06/2026.
     // STRICT để từ chối ngày không tồn tại (vd 31/02/2026) thay vì tự đổi thành 28/02.
     private static final DateTimeFormatter FMT =
@@ -36,14 +34,14 @@ public class BorrowManager {
             System.out.println("4. Borrowing history by member");
             System.out.println("5. Return");
             System.out.print("Select your choice: ");
-            choice = InputHelper.readInt(sc);
+            choice = InputHelper.readInt();
             switch (choice) {
                 case 1: borrowBook(); break;
                 case 2: returnBook(); break;
                 case 3: showBorrowingList(); break;
                 case 4:
                     System.out.print("Input Member ID: ");
-                    showHistoryByMember(InputHelper.readLine(sc).trim());
+                    showHistoryByMember(InputHelper.readLine().trim());
                     break;
                 case 5: System.out.println("Returning to main menu..."); break;
                 default: System.out.println("Invalid choice!");
@@ -58,7 +56,7 @@ public class BorrowManager {
         }
 
         System.out.print("Member ID: ");
-        String memberID = InputHelper.readLine(sc).trim();
+        String memberID = InputHelper.readLine().trim();
         Member mb = memberManager.findMemberByID(memberID);
         if (mb == null) { System.out.println("Member not found!"); return; }
 
@@ -69,8 +67,8 @@ public class BorrowManager {
         if (count >= 3) { System.out.println("Member has reached the borrowing limit!"); return; }
 
         System.out.print("Book ID: ");
-        String bookID = InputHelper.readLine(sc).trim();
-        book bk = bookManager.findBookByID(bookID);
+        String bookID = InputHelper.readLine().trim();
+        Book bk = bookManager.findBookByID(bookID);
         if (bk == null) { System.out.println("Book not found!"); return; }
         if (bk.getQuantity() <= 0) { System.out.println("This book is out of stock!"); return; }
 
@@ -98,12 +96,12 @@ public class BorrowManager {
 
     public void returnBook() {
         System.out.print("Member ID: ");
-        String memberID = InputHelper.readLine(sc).trim();
+        String memberID = InputHelper.readLine().trim();
         if (memberManager.findMemberByID(memberID) == null) { System.out.println("Member not found!"); return; }
 
         System.out.print("Book ID: ");
-        String bookID = InputHelper.readLine(sc).trim();
-        book bk = bookManager.findBookByID(bookID);
+        String bookID = InputHelper.readLine().trim();
+        Book bk = bookManager.findBookByID(bookID);
         if (bk == null) { System.out.println("Book not found!"); return; }
 
         Borrowing record = null;
@@ -137,15 +135,15 @@ public class BorrowManager {
     }
 
     public void showBorrowingList() {
-        boolean found = false;
-        for (Borrowing br : borrowList) {
-            if (!br.isReturned()) {
-                if (!found) Borrowing.showHeader();
-                br.showInfor();
-                found = true;
-            }
+        if (borrowList.isEmpty()) {
+            System.out.println("No borrowing records yet.");
+            return;
         }
-        if (!found) System.out.println("No books are currently being borrowed.");
+
+        Borrowing.showHeader();
+        for (Borrowing br : borrowList) {
+            br.showInfor();
+        }
     }
 
     public void showHistoryByMember(String memberID) {
@@ -162,12 +160,12 @@ public class BorrowManager {
     }
 
     private LocalDate readDate() {
-        try { return LocalDate.parse(InputHelper.readLine(sc).trim(), FMT); }
+        try { return LocalDate.parse(InputHelper.readLine().trim(), FMT); }
         catch (DateTimeParseException e) { System.out.println("Invalid date! Format must be DD/MM/YYYY"); return null; }
     }
 
     private boolean confirm() {
         System.out.println("[1] Confirm  [2] Cancel");
-        return InputHelper.readInt(sc) == 1;
+        return InputHelper.readInt() == 1;
     }
 }

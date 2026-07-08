@@ -1,15 +1,10 @@
-package schema;
+package model;
 
-// Lớp con Others kế thừa từ lớp cha book
-public class Others extends book {
+// Lớp con Others kế thừa từ lớp cha Book
+public class Others extends Book {
 
     // Thuộc tính riêng của Others
     private String note; // ghi chú loại sách khác
-
-    // constructor
-    public Others() {
-        super();
-    }
 
     public Others(String bookID, String nameBook,
             String author, String publicationYear, int quantity, String note) {
@@ -24,13 +19,6 @@ public class Others extends book {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    // override input: nhập thông tin chung rồi nhập thuộc tính riêng
-    @Override
-    public void inputInfor() {
-        super.inputInfor();
-        this.note = readText("Enter note: ");
     }
 
     // override để hiển thị thông tin riêng (đa hình)

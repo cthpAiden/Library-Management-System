@@ -1,13 +1,11 @@
-package library.management;
+package app;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-import schema.*;
+import model.*;
 
 public class MemberManager {
     private final ArrayList<Member> memberList;
     private final ArrayList<Borrowing> borrowList;
-    private final Scanner sc = book.sc;
 
     public MemberManager(ArrayList<Member> memberList, ArrayList<Borrowing> borrowList) {
         this.memberList = memberList;
@@ -26,19 +24,19 @@ public class MemberManager {
             System.out.println("4. Remove member");
             System.out.println("5. Return");
             System.out.print("Select your choice: ");
-            choice = InputHelper.readInt(sc);
+            choice = InputHelper.readInt();
             switch (choice) {
                 case 1: addMember(); break;
                 case 2: showAllMembers(); break;
                 case 3:
                     System.out.print("Input Member ID: ");
-                    Member mb = findMemberByID(InputHelper.readLine(sc).trim());
+                    Member mb = findMemberByID(InputHelper.readLine().trim());
                     if (mb != null) { Member.showHeader(); mb.showInfor(); }
                     else System.out.println("Member not found!");
                     break;
                 case 4:
                     System.out.print("Input Member ID: ");
-                    deleteMember(InputHelper.readLine(sc).trim());
+                    deleteMember(InputHelper.readLine().trim());
                     break;
                 case 5: System.out.println("Returning to main menu..."); break;
                 default: System.out.println("Invalid choice!");
@@ -47,8 +45,13 @@ public class MemberManager {
     }
 
     public void addMember() {
-        Member mb = new Member();
-        mb.inputInfor();
+        // Thứ tự nhập giữ như cũ: ID, tên, số điện thoại, email
+        String id = InputHelper.readRequiredText("ID Member: ");
+        String name = InputHelper.readRequiredText("Member name: ");
+        String phone = InputHelper.readText("Phone number: ");
+        String email = InputHelper.readText("Email: ");
+        Member mb = new Member(id, name, email, phone);
+
         if (findMemberByID(mb.getMemberID()) != null) {
             System.out.println("Member ID already existed!");
             return;

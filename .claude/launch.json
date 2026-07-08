@@ -6,6 +6,24 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8731"],
       "port": 8731
+    },
+    {
+      "name": "library-quest",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["learning-game/dev-server.js"],
+      "port": 8765
+    },
+    {
+      "name": "lms-sim",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-m", "http.server", "8770", "--directory", "src"],
+      "port": 8770
+    },
+    {
+      "name": "lms-m4",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-m", "http.server", "8772", "--directory", "learning-game"],
+      "port": 8772
     }
   ]
 }

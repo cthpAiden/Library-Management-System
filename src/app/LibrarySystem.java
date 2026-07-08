@@ -1,15 +1,13 @@
-package library.management;
+package app;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
-import schema.*;
+import model.*;
 
-public class LibraryManagementSystem {
-    private final ArrayList<book> bookList = new ArrayList<>();
+public class LibrarySystem {
+    private final ArrayList<Book> bookList = new ArrayList<>();
     private final ArrayList<Member> memberList = new ArrayList<>();
     private final ArrayList<Borrowing> borrowList = new ArrayList<>();
-    private final Scanner sc = book.sc;
 
     private final FileManager fileManager = new FileManager(bookList, memberList, borrowList);
     private final BookManager bookManager = new BookManager(bookList, borrowList);
@@ -17,9 +15,9 @@ public class LibraryManagementSystem {
     private final BorrowManager borrowManager = new BorrowManager(borrowList, bookManager, memberManager);
     private final ReportService reportService = new ReportService(bookList, memberList, borrowList, borrowManager);
 
-    public LibraryManagementSystem() {
+    public LibrarySystem() {
         if (fileManager.hasSavedData()) {
-            fileManager.loadData(bookList, memberList, borrowList);
+            fileManager.loadData();
         } else {
             seedData();
         }
@@ -40,7 +38,7 @@ public class LibraryManagementSystem {
             System.out.println("6. Load from file");
             System.out.println("7. Exit");
             System.out.print("Select your choice: ");
-            choice = InputHelper.readInt(sc);
+            choice = InputHelper.readInt();
             switch (choice) {
                 case 1: bookManager.showMenu(); break;
                 case 2: memberManager.showMenu(); break;
@@ -50,8 +48,8 @@ public class LibraryManagementSystem {
                 case 6:
                     System.out.println("Reloading will discard unsaved changes.");
                     System.out.println("[1] Confirm  [2] Cancel");
-                    if (InputHelper.readInt(sc) == 1) {
-                        fileManager.loadData(bookList, memberList, borrowList);
+                    if (InputHelper.readInt() == 1) {
+                        fileManager.loadData();
                     } else {
                         System.out.println("Operation cancelled.");
                     }
@@ -82,7 +80,7 @@ public class LibraryManagementSystem {
         // Trừ số lượng sách đang được mượn để tồn kho khớp với thực tế (giống borrowBook)
         for (Borrowing br : borrowList) {
             if (!br.isReturned()) {
-                book bk = bookManager.findBookByID(br.getBookID());
+                Book bk = bookManager.findBookByID(br.getBookID());
                 if (bk != null) bk.setQuantity(bk.getQuantity() - 1);
             }
         }

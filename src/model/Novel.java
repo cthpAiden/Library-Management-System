@@ -1,15 +1,10 @@
-package schema;
+package model;
 
-// Lớp con Novel kế thừa từ lớp cha book
-public class Novel extends book {
+// Lớp con Novel kế thừa từ lớp cha Book
+public class Novel extends Book {
 
     // Thuộc tính riêng của Novel
     private String genre; // thể loại tiểu thuyết (Fantasy, Romance, ...)
-
-    // constructor
-    public Novel() {
-        super();
-    }
 
     public Novel(String bookID, String nameBook,
             String author, String publicationYear, int quantity, String genre) {
@@ -24,13 +19,6 @@ public class Novel extends book {
 
     public void setGenre(String genre) {
         this.genre = genre;
-    }
-
-    // override input: nhập thông tin chung rồi nhập thuộc tính riêng
-    @Override
-    public void inputInfor() {
-        super.inputInfor();
-        this.genre = readText("Enter genre (e.g. Fantasy, Romance): ");
     }
 
     // override để hiển thị thông tin riêng (đa hình)

@@ -1,4 +1,4 @@
-package schema;
+package model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,9 +16,6 @@ public class Borrowing {
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     // constructor
-    public Borrowing() {
-    }
-
     public Borrowing(String memberID, String bookID, LocalDate borrowDate, LocalDate returnDate, boolean returned) {
         this.memberID = memberID;
         this.bookID = bookID;
@@ -27,7 +24,7 @@ public class Borrowing {
         this.returned = returned;
     }
 
-    //getter
+    // getter
     public String getMemberID() {
         return memberID;
     }
@@ -73,14 +70,14 @@ public class Borrowing {
     public long tinhNgayQuaHan(LocalDate ngayTra) {
         LocalDate dueDateDate = borrowDate.plusDays(MAX_BORROW_DAYS);
         long overdue = ChronoUnit.DAYS.between(dueDateDate, ngayTra);
-        return overdue > 0 ? overdue : 0;// nêu >0 thì  return số ngày trễ còn ko thì return ngày trễ là 0
+        return overdue > 0 ? overdue : 0;// nêu >0 thì return số ngày trễ còn ko thì return ngày trễ là 0
     }
- 
+
     // tính tiền phạt
     public long tinhTienPhat(LocalDate ngayTra) {
         return tinhNgayQuaHan(ngayTra) * FINE_PER_DAY;
     }
- 
+
     // ngày đến hạn trả
     public LocalDate getDueDate() {
         return borrowDate.plusDays(MAX_BORROW_DAYS);

@@ -1,15 +1,10 @@
-package schema;
+package model;
 
-// Lớp con Textbook kế thừa từ lớp cha book
-public class Textbook extends book {
+// Lớp con Textbook kế thừa từ lớp cha Book
+public class Textbook extends Book {
 
     // Thuộc tính riêng của Textbook
     private String subject; // môn học (Math, Physics, ...)
-
-    // constructor
-    public Textbook() {
-        super();
-    }
 
     public Textbook(String bookID, String nameBook,
             String author, String publicationYear, int quantity, String subject) {
@@ -24,13 +19,6 @@ public class Textbook extends book {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    // override input: nhập thông tin chung rồi nhập thuộc tính riêng
-    @Override
-    public void inputInfor() {
-        super.inputInfor();
-        this.subject = readText("Enter subject (e.g. Math, Physics): ");
     }
 
     // override để hiển thị thông tin riêng (đa hình)
