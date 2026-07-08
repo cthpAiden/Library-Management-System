@@ -1,0 +1,10 @@
+NOVEL|B01|Truyen Kieu|Nguyen Du|1820|3|Romance
+TEXTBOOK|B02|Mathematics 9|Phan Duc Chinh|2005|2|Mathematics
+COMIC|B03|Tham Tu Conan|Gosho Aoyama|1994|9|42
+OTHERS|B04|Tu Dien Tieng Viet|Hoang Phe|2018|4|Dictionary
+NOVEL|B05|So Do|Vu Trong Phung|1936|5|Satire
+TEXTBOOK|B06|Physics 10|Vu Quang|2006|3|Physics
+COMIC|B07|Doraemon|Fujiko F. Fujio|1969|10|1
+OTHERS|B08|Bach Khoa Toan Thu|Nhieu Tac Gia|2015|2|Encyclopedia
+NOVEL|B09|Chi Pheo|Nam Cao|1941|4|Classic
+TEXTBOOK|B10|Chemistry 11|Le Xuan Trong|2007|3|Chemistry
